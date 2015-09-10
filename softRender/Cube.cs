@@ -11,14 +11,14 @@ namespace softRender
     {
         Vector4 minPos;
         Vector4 maxPos;
+
+        Vertex[] vertexs = new Vertex[8];
+        List<Vertex[]> vertexList = new List<Vertex[]>();
         public Cube(Vector4 minPos, Vector4 maxPos)
         {
             this.minPos = minPos;
             this.maxPos = maxPos;
-        }
 
-        public List<Vertex[]> getVertex()
-        {
             Vertex v1 = new Vertex();
             v1.pos = new Vector4(minPos.X, minPos.Y, minPos.Z, 1.0f);
             v1.color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
@@ -30,7 +30,7 @@ namespace softRender
             Vertex v3 = new Vertex();
             v3.pos = new Vector4(maxPos.X, maxPos.Y, minPos.Z, 1.0f);
             v3.color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
-            
+
             Vertex v4 = new Vertex();
             v4.pos = new Vector4(minPos.X, maxPos.Y, minPos.Z, 1.0f);
             v4.color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
@@ -51,20 +51,40 @@ namespace softRender
             v8.pos = new Vector4(minPos.X, maxPos.Y, maxPos.Z, 1.0f);
             v8.color = new Color4(1.0f, 0.0f, 0.0f, 1.0f);
 
-            List <Vertex[]> vertexList = new List<Vertex[]>();
-            vertexList.Add(new Vertex[3]{v1, v2, v4});
-            vertexList.Add(new Vertex[3]{v2, v3, v4});
-            vertexList.Add(new Vertex[3]{v5, v6, v8});
-            vertexList.Add(new Vertex[3]{v6, v7, v8});
-            vertexList.Add(new Vertex[3]{v1, v2, v5});
-            vertexList.Add(new Vertex[3]{v2, v6, v5});
-            vertexList.Add( new Vertex[3]{v4, v3, v8});
-            vertexList.Add(new Vertex[3]{v3, v7, v8});
-            vertexList.Add(new Vertex[3]{v1, v5, v4});
-            vertexList.Add(new Vertex[3]{v5, v8, v4});
-            vertexList.Add(new Vertex[3]{v2, v6, v3});
-            vertexList.Add(new Vertex[3]{v6, v7, v3});
+            vertexs[0] = v1;
+            vertexs[1] = v2;
+            vertexs[2] = v3;
+            vertexs[3] = v4;
+            vertexs[4] = v5;
+            vertexs[5] = v6;
+            vertexs[6] = v7;
+            vertexs[7] = v8;
 
+            vertexList.Add(new Vertex[3] { v1, v2, v4 });
+            vertexList.Add(new Vertex[3] { v2, v3, v4 });
+            vertexList.Add(new Vertex[3] { v5, v6, v8 });
+            vertexList.Add(new Vertex[3] { v6, v7, v8 });
+            vertexList.Add(new Vertex[3] { v1, v2, v5 });
+            vertexList.Add(new Vertex[3] { v2, v6, v5 });
+            vertexList.Add(new Vertex[3] { v4, v3, v8 });
+            vertexList.Add(new Vertex[3] { v3, v7, v8 });
+            vertexList.Add(new Vertex[3] { v1, v5, v4 });
+            vertexList.Add(new Vertex[3] { v5, v8, v4 });
+            vertexList.Add(new Vertex[3] { v2, v6, v3 });
+            vertexList.Add(new Vertex[3] { v6, v7, v3 });
+        }
+
+        public void transform(Matrix m)
+        {
+            for (int i = 0; i < vertexs.Length; i++ )
+            {
+                vertexs[i].pos = Vector4.Transform(vertexs[i].pos, m);
+                int temp = 0;
+            }
+        }
+
+        public List<Vertex[]> getVertex()
+        {
             return vertexList;
         }
     }

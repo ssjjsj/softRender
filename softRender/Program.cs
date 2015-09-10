@@ -50,13 +50,14 @@ namespace softRender
 
             Camera c = new Camera(-10, -100, 300, 300);
 
-            Cube cube = new Cube(new Vector4(-100f, -100f, -12f, 1f), new Vector4(100f, 100.0f, -112f, 1.0f));
+            Cube cube = new Cube(new Vector4(-100f, -100f, -100f, 1f), new Vector4(100f, 100.0f, 100f, 1.0f));
             Matrix m = new Matrix();
             //Matrix.Scaling(10f, 10f, 10f, out m);
-            //Matrix.RotationY((float)Math.PI/4, out m);
+            Matrix.RotationY((float)Math.PI/4, out m);
             //Matrix.Translation(0.0f, 0.0f, -15.0f, out m);
             //Matrix.RotationYawPitchRoll(0.0f, (float)Math.PI / 4, 0.0f, out m);
-            
+
+            //cube.transform(m);
             vertexs = cube.getVertex();
 
             foreach (Vertex[] tringles in vertexs)

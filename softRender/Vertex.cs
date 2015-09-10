@@ -7,7 +7,7 @@ using SlimDX;
 
 namespace softRender
 {
-    struct Vertex
+    class Vertex
     {
         public Vector4 pos;
         public Color4 color;
