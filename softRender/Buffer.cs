@@ -7,29 +7,29 @@ using SlimDX;
 
 namespace softRender
 {
-    class Buffer
+    class Buffer<T>
     {
-        private Color4[] rawData;
+        private T[] rawData;
         private int width;
         private int height;
  
-        public Buffer(int width, int height)
+        public Buffer(int width, int height, T defaultData)
         {
-            rawData = new Color4[width*height];
+            rawData = new T[width*height];
             for (int i=0; i<rawData.Length; i++)
             {
-                rawData[i] = new Color4(1.0f, 1.0f, 1.0f, 1.0f);
+                rawData[i] = defaultData;
             }
             this.width = width;
             this.height = height;
         }
 
-        public void writeOneData(int x, int y, Color4 data)
+        public void writeOneData(int x, int y, T data)
         {
             rawData[width*y + x] = data;
         }
 
-        public Color4 readOneData(int x, int y)
+        public T readOneData(int x, int y)
         {
             return rawData[y*width + x];
         }

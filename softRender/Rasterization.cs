@@ -9,7 +9,7 @@ namespace softRender
 {
     class Rasterization
     {
-        public void drawTriange(Vertex[] vertexList, Buffer outPutBuffer)
+        public void drawTriange(Vertex[] vertexList, Buffer<Color4> outPutBuffer, Buffer<float> zBuffer)
         {
             float tMinX = vertexList[0].pos.X;
             float tMinY = vertexList[0].pos.Y;
@@ -64,7 +64,14 @@ namespace softRender
                         c.Red = vertexList[0].color.Red * index0 + vertexList[1].color.Red * index1 + vertexList[2].color.Red * index2;
                         c.Green = vertexList[0].color.Green * index0 + vertexList[1].color.Green * index1 + vertexList[2].color.Green * index2;
                         c.Blue = vertexList[0].color.Blue * index0 + vertexList[1].color.Blue * index1 + vertexList[2].color.Blue * index2;
-                        outPutBuffer.writeOneData(posX, posY, c);
+                        float z = vertexList[0].pos.Z*index0 + vertexList[1].pos.Z*index1 + vertexList[2].pos.Z*index2;
+
+                        float curZ = zBuffer.readOneData(posX, posY);
+                        if (z > curZ)
+                        {
+                            zBuffer.writeOneData(posX, posY, z);
+                            outPutBuffer.writeOneData(posX, posY, c);
+                        }
                     }
                 }
             }

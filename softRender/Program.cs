@@ -12,7 +12,8 @@ namespace softRender
         static void Main(string[] args)
         {
             Surface s = new ImageSurface(300, 300);
-            Buffer b = new Buffer(300, 300);
+            Buffer<Color4> b = new Buffer<Color4>(300, 300, new Color4(1.0f, 0.0f, 0.0f, 0.0f));
+            Buffer<float> zBuffer = new Buffer<float>(300, 300, -1f);
             Rasterization r = new Rasterization();
 
             List<Vertex[]> vertexs = new List<Vertex[]>();
@@ -67,7 +68,7 @@ namespace softRender
                     tringles[i].pos = Vector4.Transform(tringles[i].pos, c.getClipToScreenMatrix());
                 }
 
-                r.drawTriange(tringles, b);
+                r.drawTriange(tringles, b, zBuffer);
             }
             s.Present(b);
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SlimDX;
 
 namespace softRender
 {
@@ -16,7 +17,7 @@ namespace softRender
             this.height = height;
         }
 
-        public virtual void Present(Buffer buf)
+        public virtual void Present(Buffer<Color4> buf)
         {
 
         }

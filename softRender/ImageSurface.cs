@@ -17,7 +17,7 @@ namespace softRender
              bitmap = new Bitmap(width, height);
         }
 
-        public override void Present(Buffer buf)
+        public override void Present(Buffer<Color4> buf)
         {
             Graphics g = Graphics.FromImage(bitmap);
 
