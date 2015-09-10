@@ -1,0 +1,17 @@
+c:\users\lzl\documents\visual studio 2013\Projects\softRender\softRender\bin\Debug\softRender.exe.config
+C:\Users\lzl\Documents\Visual Studio 2013\Projects\softRender\softRender\obj\Debug\softRender.csprojResolveAssemblyReference.cache
+C:\Users\lzl\Documents\Visual Studio 2013\Projects\softRender\softRender\bin\Debug\softRender.exe
+C:\Users\lzl\Documents\Visual Studio 2013\Projects\softRender\softRender\bin\Debug\softRender.pdb
+C:\Users\lzl\Documents\Visual Studio 2013\Projects\softRender\softRender\bin\Debug\SlimDX.dll
+C:\Users\lzl\Documents\Visual Studio 2013\Projects\softRender\softRender\obj\Debug\softRender.exe
+C:\Users\lzl\Documents\Visual Studio 2013\Projects\softRender\softRender\obj\Debug\softRender.pdb
+H:\code\softRender\softRender\bin\Debug\softRender.exe.config
+H:\code\softRender\softRender\obj\Debug\softRender.exe
+H:\code\softRender\softRender\obj\Debug\softRender.pdb
+H:\code\softRender\softRender\bin\Debug\softRender.exe
+H:\code\softRender\softRender\bin\Debug\softRender.pdb
+H:\code\softRender\softRender\bin\Debug\SlimDX.dll
+H:\code\softRender\softRender\obj\Debug\softRender.csprojResolveAssemblyReference.cache
+E:\softRender\softRender\bin\Debug\softRender.exe.config
+E:\softRender\softRender\obj\Debug\softRender.exe
+E:\softRender\softRender\obj\Debug\softRender.pdb
