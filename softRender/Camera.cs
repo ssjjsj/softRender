@@ -9,18 +9,17 @@ namespace softRender
 {
     class Camera
     {
-        private int width;
-        private int height;
+        private float width;
+        private float height;
         private float aspect;
         private float viewField;
         private float near;
         private float far;
         private Transform camTransform;
 
-        public Camera(float viewField, float aspect, float near, float far, int width, int height)
+        public Camera(float near, float far, float width, float height)
         {
-            this.aspect = aspect;
-            this.viewField = viewField;
+            this.aspect = (float)width/(float)height;
             this.near = near;
             this.far = far;
             this.width = width;
@@ -30,12 +29,11 @@ namespace softRender
         public Matrix getClipMatrix()
         {
             Matrix m = new Matrix();
-            m.M43 = -1;
-            m.M11 = (float)(1 / Math.Tan(viewField / 2));
-            m.M22 = (float)(aspect / Math.Tan(viewField / 2));
+            m.M34 = -1;
+            m.M11 = -2 * near / width;
+            m.M22 = -2*near/height;
             m.M33 = (far + near) / (far - near);
-            m.M34 = -2 * far * near / (far - near);
-            m.Invert();
+            m.M43 = -2 * far * near / (far - near);
             return m;
         }
 
@@ -44,8 +42,8 @@ namespace softRender
             Matrix m = new Matrix();
             m.M11 = width / 2;
             m.M22 = height / 2;
-            m.M41 = (width) / 2;
-            m.M42 = (height) / 2;
+            m.M41 = (width-1) / 2;
+            m.M42 = (height-1) / 2;
             m.M44 = 1;
 
             return m;

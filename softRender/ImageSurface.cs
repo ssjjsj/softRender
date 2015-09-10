@@ -21,13 +21,13 @@ namespace softRender
         {
             Graphics g = Graphics.FromImage(bitmap);
 
-            for (int row = 0; row < height; row++)
+            for (int x = 0; x < width; x++)
             {
-                for (int col=0; col<width; col++)
+                for (int y=0; y<height; y++)
                 {
-                    Color4 data = buf.readOneData(row, col);
+                    Color4 data = buf.readOneData(x, y);
                     Color c = Color.FromArgb((int)(data.Alpha*255), (int)(data.Red*255), (int)(data.Green*255), (int)(data.Blue*255));
-                    g.DrawRectangle(new Pen(c), row, col, 1, 1);
+                    g.DrawRectangle(new Pen(c), x, height-y, 1, 1);
                 }
             }
 

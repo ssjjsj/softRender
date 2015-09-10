@@ -29,19 +29,19 @@ namespace softRender
 
             Vertex v3 = new Vertex();
             v3.pos = new Vector4(maxPos.X, maxPos.Y, minPos.Z, 1.0f);
-            v3.color = new Color4(1.0f, 0.0f, 0.0f, 1.0f);
+            v3.color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
             
             Vertex v4 = new Vertex();
             v4.pos = new Vector4(minPos.X, maxPos.Y, minPos.Z, 1.0f);
-            v4.color = new Color4(1.0f, 0.0f, 0.0f, 1.0f);
+            v4.color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
 
             Vertex v5 = new Vertex();
             v5.pos = new Vector4(minPos.X, minPos.Y, maxPos.Z, 1.0f);
-            v5.color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
+            v5.color = new Color4(1.0f, 0.0f, 0.0f, 1.0f);
 
             Vertex v6 = new Vertex();
             v6.pos = new Vector4(maxPos.X, minPos.Y, maxPos.Z, 1.0f);
-            v6.color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
+            v6.color = new Color4(1.0f, 0.0f, 0.0f, 1.0f);
 
             Vertex v7 = new Vertex();
             v7.pos = new Vector4(maxPos.X, maxPos.Y, maxPos.Z, 1.0f);
