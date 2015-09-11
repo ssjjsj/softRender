@@ -76,5 +76,66 @@ namespace softRender
                 }
             }
         }
+
+
+        public void drawLine(Vertex[] line, Buffer<Color4> outPut)
+        {
+            Color4 c = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
+            int posX1 = (int)line[0].pos.X;
+            int posY1 = (int)line[0].pos.Y;
+            int posX2 = (int)line[1].pos.X;
+            int posY2 = (int)line[1].pos.Y;
+
+            float k = ((float)(posY2 - posY1)) / ((float)(posX2 - posX1));
+            float d = posY1-k*posX1;
+            if (k>=1)
+            {
+                int posX = posX1;
+                for (int posY=posY1; posY<=posY2; posY++)
+                {
+                    outPut.writeOneData(posX, posY, c);
+                    if (posY+1-k*(posX+0.5)+d>0)
+                    {
+                        posX = posX + 1;
+                    }
+                }
+            }
+            else if (k>0 && k<1)
+            {
+                int posY = posY1;
+                for (int posX=posX1; posX<=posX2; posX++)
+                {
+                    outPut.writeOneData(posX, posY, c);
+                    if (posY+0.5-k*(posX+1)+d<0)
+                    {
+                        posY = posY + 1;
+                    }
+                }
+            }
+            else if (k<0 && k>-1)
+            {
+                int posY = posY1;
+                for (int posX = posX1; posX <= posX2; posX++)
+                {
+                    outPut.writeOneData(posX, posY, c);
+                    if (posY + 0.5 - k * (posX + 1) + d > 0)
+                    {
+                        posY = posY - 1;
+                    }
+                }
+            }
+            else if (k<= -1)
+            {
+                int posX = posX1;
+                for (int posY = posY1; posY >= posY2; posY--)
+                {
+                    outPut.writeOneData(posX, posY, c);
+                    if (posY-1 - k * (posX + 0.5) + d > 0)
+                    {
+                        posX = posX + 1;
+                    }
+                }
+            }
+        }
     }
 }
