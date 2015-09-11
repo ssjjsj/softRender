@@ -14,6 +14,7 @@ namespace softRender
 
         Vertex[] vertexs = new Vertex[8];
         List<Vertex[]> vertexList = new List<Vertex[]>();
+        List<Vertex[]> lines = new List<Vertex[]>();
         public Cube(Vector4 minPos, Vector4 maxPos)
         {
             this.minPos = minPos;
@@ -72,6 +73,24 @@ namespace softRender
             vertexList.Add(new Vertex[3] { v5, v8, v4 });
             vertexList.Add(new Vertex[3] { v2, v6, v3 });
             vertexList.Add(new Vertex[3] { v6, v7, v3 });
+
+
+            lines.Add(new Vertex[2] { v1, v2});
+            lines.Add(new Vertex[2] { v2, v4 });
+            lines.Add(new Vertex[2] { v4, v3});
+            lines.Add(new Vertex[2] { v3, v1});
+           
+            lines.Add(new Vertex[2] { v5, v6 });
+            lines.Add(new Vertex[2] { v6, v8 });
+            lines.Add(new Vertex[2] { v8, v7 });
+            lines.Add(new Vertex[2] { v7, v5 });
+
+            lines.Add(new Vertex[2] { v1, v5 });
+            lines.Add(new Vertex[2] { v2, v6 });
+            lines.Add(new Vertex[2] { v3, v7 });
+            lines.Add(new Vertex[2] { v4, v8 });
+
+
         }
 
         public void transform(Matrix m)
@@ -86,6 +105,11 @@ namespace softRender
         public List<Vertex[]> getVertex()
         {
             return vertexList;
+        }
+
+        public List<Vertex[]> getLines()
+        {
+            return lines;
         }
     }
 }

@@ -94,7 +94,7 @@ namespace softRender
                 for (int posY=posY1; posY<=posY2; posY++)
                 {
                     outPut.writeOneData(posX, posY, c);
-                    if (posY+1-k*(posX+0.5)+d>0)
+                    if (posY+1-k*(posX+0.5)-d>0)
                     {
                         posX = posX + 1;
                     }
@@ -106,7 +106,7 @@ namespace softRender
                 for (int posX=posX1; posX<=posX2; posX++)
                 {
                     outPut.writeOneData(posX, posY, c);
-                    if (posY+0.5-k*(posX+1)+d<0)
+                    if (posY+0.5-k*(posX+1)-d<0)
                     {
                         posY = posY + 1;
                     }
@@ -118,7 +118,7 @@ namespace softRender
                 for (int posX = posX1; posX <= posX2; posX++)
                 {
                     outPut.writeOneData(posX, posY, c);
-                    if (posY + 0.5 - k * (posX + 1) + d > 0)
+                    if (posY + 0.5 - k * (posX + 1) - d > 0)
                     {
                         posY = posY - 1;
                     }
@@ -130,7 +130,7 @@ namespace softRender
                 for (int posY = posY1; posY >= posY2; posY--)
                 {
                     outPut.writeOneData(posX, posY, c);
-                    if (posY-1 - k * (posX + 0.5) + d > 0)
+                    if (posY-1 - k * (posX + 0.5) - d < 0)
                     {
                         posX = posX + 1;
                     }
