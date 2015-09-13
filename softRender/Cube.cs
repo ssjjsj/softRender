@@ -13,7 +13,7 @@ namespace softRender
         Vector4 maxPos;
 
         Vertex[] vertexs = new Vertex[8];
-        List<Vertex[]> vertexList = new List<Vertex[]>();
+        List<Vertex[]> triangles = new List<Vertex[]>();
         List<Vertex[]> lines = new List<Vertex[]>();
         public Cube(Vector4 minPos, Vector4 maxPos)
         {
@@ -61,36 +61,34 @@ namespace softRender
             vertexs[6] = v7;
             vertexs[7] = v8;
 
-            vertexList.Add(new Vertex[3] { v1, v2, v4 });
-            vertexList.Add(new Vertex[3] { v2, v3, v4 });
-            vertexList.Add(new Vertex[3] { v5, v6, v8 });
-            vertexList.Add(new Vertex[3] { v6, v7, v8 });
-            vertexList.Add(new Vertex[3] { v1, v2, v5 });
-            vertexList.Add(new Vertex[3] { v2, v6, v5 });
-            vertexList.Add(new Vertex[3] { v4, v3, v8 });
-            vertexList.Add(new Vertex[3] { v3, v7, v8 });
-            vertexList.Add(new Vertex[3] { v1, v5, v4 });
-            vertexList.Add(new Vertex[3] { v5, v8, v4 });
-            vertexList.Add(new Vertex[3] { v2, v6, v3 });
-            vertexList.Add(new Vertex[3] { v6, v7, v3 });
+            triangles.Add(new Vertex[3] { v1, v2, v4 });
+            triangles.Add(new Vertex[3] { v2, v3, v4 });
+            triangles.Add(new Vertex[3] { v5, v6, v8 });
+            triangles.Add(new Vertex[3] { v6, v7, v8 });
+            triangles.Add(new Vertex[3] { v1, v2, v5 });
+            triangles.Add(new Vertex[3] { v2, v6, v5 });
+            triangles.Add(new Vertex[3] { v4, v3, v8 });
+            triangles.Add(new Vertex[3] { v3, v7, v8 });
+            triangles.Add(new Vertex[3] { v1, v5, v4 });
+            triangles.Add(new Vertex[3] { v5, v8, v4 });
+            triangles.Add(new Vertex[3] { v2, v6, v3 });
+            triangles.Add(new Vertex[3] { v6, v7, v3 });
 
 
-            lines.Add(new Vertex[2] { v1, v2});
-            lines.Add(new Vertex[2] { v2, v4 });
-            lines.Add(new Vertex[2] { v4, v3});
-            lines.Add(new Vertex[2] { v3, v1});
-           
+            lines.Add(new Vertex[2] { v1, v2 });
+            lines.Add(new Vertex[2] { v2, v3 });
+            lines.Add(new Vertex[2] { v3, v4 });
+            lines.Add(new Vertex[2] { v4, v1 });
+
             lines.Add(new Vertex[2] { v5, v6 });
-            lines.Add(new Vertex[2] { v6, v8 });
-            lines.Add(new Vertex[2] { v8, v7 });
-            lines.Add(new Vertex[2] { v7, v5 });
+            lines.Add(new Vertex[2] { v6, v7 });
+            lines.Add(new Vertex[2] { v7, v8 });
+            lines.Add(new Vertex[2] { v8, v5 });
 
             lines.Add(new Vertex[2] { v1, v5 });
             lines.Add(new Vertex[2] { v2, v6 });
             lines.Add(new Vertex[2] { v3, v7 });
             lines.Add(new Vertex[2] { v4, v8 });
-
-
         }
 
         public void transform(Matrix m)
@@ -98,13 +96,17 @@ namespace softRender
             for (int i = 0; i < vertexs.Length; i++ )
             {
                 vertexs[i].pos = Vector4.Transform(vertexs[i].pos, m);
-                int temp = 0;
             }
         }
 
-        public List<Vertex[]> getVertex()
+        public Vertex[] getVertexs()
         {
-            return vertexList;
+            return vertexs;
+        }
+
+        public List<Vertex[]> getTriagngles()
+        {
+            return triangles;
         }
 
         public List<Vertex[]> getLines()
