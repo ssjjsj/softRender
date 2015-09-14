@@ -48,6 +48,7 @@
     <Compile Include="Buffer.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Cube.cs" />
+    <Compile Include="Culler.cs" />
     <Compile Include="ImageSurface.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
