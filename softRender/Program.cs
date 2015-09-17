@@ -154,7 +154,6 @@ namespace softRender
 
                 s.Present(b);
             }
-
         }
     }
 }
