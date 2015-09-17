@@ -9,15 +9,8 @@ namespace softRender
 {
     class Culler
     {
-        public struct CullPlane
+        public class CullPlane
         {
-            private Plane left;
-            private Plane right;
-            private Plane top;
-            private Plane buttom;
-            private Plane front;
-            private Plane back;
-
             private List<Plane> cullPlanes;
 
             public List<Plane> getCullPlanes()
@@ -42,8 +35,8 @@ namespace softRender
         private List<Vertex> cullLine(Vertex p1, Vertex p2, Plane p)
         {
             List<Vertex> list = new List<Vertex>();
-            float value1 = p.getInserValue(p1);
-            float value2 = p.getInserValue(p2);
+            float value1 = p.getDotValue(p1.pos);
+            float value2 = p.getDotValue(p2.pos);
 
             float temp = value1 * value2;
             if (temp > 0)
@@ -58,6 +51,8 @@ namespace softRender
             {
 
             }
+
+            return list;
         }
 
         private void cullTriangle(Vertex[] triangle, Plane p)
@@ -73,17 +68,17 @@ namespace softRender
             }
             else if (vertexs.Count == 4)
             {
-                Vertex[] triangle = new Vertex[3];
-                triangle[0] = vertexs[0];
-                triangle[1] = vertexs[1];
-                triangle[2] = vertexs[2];
-                needCullTriangles.Add(triangle);
+                Vertex[] newTriangle = new Vertex[3];
+                newTriangle[0] = vertexs[0];
+                newTriangle[1] = vertexs[1];
+                newTriangle[2] = vertexs[2];
+                needCullTriangles.Add(newTriangle);
 
-                triangle = new Vertex[3];
-                triangle[0] = vertexs[2];
-                triangle[1] = vertexs[3];
-                triangle[2] = vertexs[0];
-                needCullTriangles.Add(triangle);
+                newTriangle = new Vertex[3];
+                newTriangle[0] = vertexs[2];
+                newTriangle[1] = vertexs[3];
+                newTriangle[2] = vertexs[0];
+                needCullTriangles.Add(newTriangle);
             }
         }
 
