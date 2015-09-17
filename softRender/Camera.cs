@@ -17,23 +17,31 @@ namespace softRender
         private float far;
         private Transform camTransform;
 
-        public Camera(float near, float far, float width, float height)
+        public Camera(float near, float far, float fov, float width, float height)
         {
             this.aspect = (float)width/(float)height;
             this.near = near;
             this.far = far;
             this.width = width;
             this.height = height;
+            this.viewField = fov;
         }
 
         public Matrix getClipMatrix()
         {
             Matrix m = new Matrix();
-            m.M34 = -1;
-            m.M11 = -2 * near / width;
-            m.M22 = -2*near/height;
-            m.M33 = (far + near) / (far - near);
-            m.M43 = -2 * far * near / (far - near);
+            
+            float h, w, Q;
+            w = (float)1 / (float)Math.Tan(viewField * 0.5f);
+            h = w / aspect;
+            Q = far/(far - near);
+
+            m.M11 = w;
+            m.M22 = h;
+            m.M33 = Q;
+            m.M43 = -Q * near;
+            m.M34 = 1;
+
             return m;
         }
 

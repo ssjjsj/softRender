@@ -27,11 +27,13 @@ namespace softRender
 
 
             }
+
+            return new List<Vertex[]>();
         }
 
         private List<Vertex> getCulledVertexs(Vertex start, Vertex end, CullPlane plane)
         {
-
+            return new List<Vertex>();
         }
     }
 }
