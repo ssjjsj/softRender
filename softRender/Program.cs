@@ -21,7 +21,7 @@ namespace softRender
         }
         static void Main(string[] args)
         {
-            Surface s = new ImageSurface(300, 300);
+            Surface s = new FormSurface(300, 300);
             Buffer<Color4> b = new Buffer<Color4>(300, 300, new Color4(1.0f, 1.0f, 1.0f, 1.0f));
             Buffer<float> zBuffer = new Buffer<float>(300, 300, -1f);
             Rasterization r = new Rasterization();
@@ -145,12 +145,16 @@ namespace softRender
                 vertexs[i].pos = mul(vertexs[i].pos, c.getClipToScreenMatrix());
             }
 
-            foreach (Vertex[] line in lines)
+            while (true)
             {
-                r.drawLine(line, b);
+                foreach (Vertex[] line in lines)
+                {
+                    r.drawLine(line, b);
+                }
+
+                s.Present(b);
             }
 
-            s.Present(b);
         }
     }
 }
