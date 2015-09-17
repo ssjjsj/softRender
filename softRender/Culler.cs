@@ -29,7 +29,7 @@ namespace softRender
             }
         }
 
-        private List<Vertex[]> needCullTriangles;
+        private List<Vertex[]> cullTriangles = new List<Vertex[]>();
         //private List<Vertex[]> culledTriangles;
 
         private List<Vertex> cullLine(Vertex p1, Vertex p2, Plane p)
@@ -49,7 +49,16 @@ namespace softRender
             }
             else
             {
-
+                Vertex v = p.getInsertValue(p1, p2);
+                list.Add(v);
+                if (value1 > 0)
+                {
+                    list.Add(p1);
+                }
+                else
+                {
+                    list.Add(p2);
+                }
             }
 
             return list;
@@ -64,7 +73,7 @@ namespace softRender
  
             if (vertexs.Count == 3)
             {
-                needCullTriangles.Add(vertexs.ToArray());
+                cullTriangles.Add(vertexs.ToArray());
             }
             else if (vertexs.Count == 4)
             {
@@ -72,13 +81,13 @@ namespace softRender
                 newTriangle[0] = vertexs[0];
                 newTriangle[1] = vertexs[1];
                 newTriangle[2] = vertexs[2];
-                needCullTriangles.Add(newTriangle);
+                cullTriangles.Add(newTriangle);
 
                 newTriangle = new Vertex[3];
                 newTriangle[0] = vertexs[2];
                 newTriangle[1] = vertexs[3];
                 newTriangle[2] = vertexs[0];
-                needCullTriangles.Add(newTriangle);
+                cullTriangles.Add(newTriangle);
             }
         }
 
@@ -86,11 +95,13 @@ namespace softRender
         {
             foreach (Plane p in cullPlanes.getCullPlanes())
             {
-                foreach (Vertex[] triangle in needCullTriangles)
+                foreach (Vertex[] triangle in cullTriangles)
                 {
                     cullTriangle(triangle, p);
                 }
             }
+
+            return cullTriangles;
         }
     }
 }

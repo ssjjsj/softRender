@@ -21,6 +21,10 @@ namespace softRender
         }
         static void Main(string[] args)
         {
+            int width = 300;
+            int height = 300;
+            int near = -10;
+            int far = -1000;
             Surface s = new FormSurface(300, 300);
             Buffer<Color4> b = new Buffer<Color4>(300, 300, new Color4(1.0f, 1.0f, 1.0f, 1.0f));
             Buffer<float> zBuffer = new Buffer<float>(300, 300, -1f);
@@ -61,6 +65,7 @@ namespace softRender
         //    //vertexs.Add(tringleAry);
 
             Camera c = new Camera(-10, -1000, (float)Math.PI/2,300, 300);
+            Culler cull = new Culler();
 
             Cube cube = new Cube(new Vector4(-5f, -5f, -20f, 1f), new Vector4(5f, 5.0f, -30f, 1.0f));
             Matrix m = new Matrix();
@@ -141,6 +146,13 @@ namespace softRender
             {
                 vertexs[i].pos = mul(vertexs[i].pos, m);
                 vertexs[i].pos = mul(vertexs[i].pos, c.getClipMatrix());
+                Culler.CullPlane plane = new Culler.CullPlane(new Plane(-width/2, height/2, near, 1), new Vector4(1, 0, 0, 1)),
+                    new Plane(width/2, height/2, near, 1), new Vector4(-1, 0, 0, 1)),
+                new Plane(-width/2, height/2, near, 1), new Vector4(0, -1, 0, 1)),
+                new Plane(-width/2, -height/2, near, 1), new Vector4(0, 1, 0, 1)),
+                new Plane(-width/2, height/2, near, 1), new Vector4(0, 0, -1, 1)),
+                new Plane(-width/2, height/2, far, 1), new Vector4(0, 0, 1, 1)),
+                    );
                 vertexs[i].pos = new Vector4(vertexs[i].pos.X / vertexs[i].pos.W, vertexs[i].pos.Y / vertexs[i].pos.W, vertexs[i].pos.Z / vertexs[i].pos.W, 1.0f);
                 vertexs[i].pos = mul(vertexs[i].pos, c.getClipToScreenMatrix());
             }

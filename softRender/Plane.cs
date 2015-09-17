@@ -14,10 +14,10 @@ namespace softRender
 
         public float getDotValue(Vector4 p)
         {
-            return Vector4.Dot(normal, point-p)
+            return Vector4.Dot(normal, point - p);
         }
 
-        public float getInsertValue(Vertex p1, Vertex p2)
+        public Vertex getInsertValue(Vertex p1, Vertex p2)
         {
             Vector4 pos1 = p1.pos;
             Vector4 pos2 = p2.pos;
