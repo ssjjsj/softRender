@@ -13,7 +13,7 @@ namespace softRender
         Vector4 maxPos;
 
         Vertex[] vertexs = new Vertex[8];
-        List<Vertex[]> triangles = new List<Vertex[]>();
+        List<int[]> triangleIndexs = new List<int[]>();
         List<Vertex[]> lines = new List<Vertex[]>();
         public Cube(Vector4 minPos, Vector4 maxPos)
         {
@@ -61,18 +61,18 @@ namespace softRender
             vertexs[6] = v7;
             vertexs[7] = v8;
 
-            triangles.Add(new Vertex[3] { v1, v2, v4 });
-            triangles.Add(new Vertex[3] { v2, v3, v4 });
-            triangles.Add(new Vertex[3] { v5, v6, v8 });
-            triangles.Add(new Vertex[3] { v6, v7, v8 });
-            triangles.Add(new Vertex[3] { v1, v2, v5 });
-            triangles.Add(new Vertex[3] { v2, v6, v5 });
-            triangles.Add(new Vertex[3] { v4, v3, v8 });
-            triangles.Add(new Vertex[3] { v3, v7, v8 });
-            triangles.Add(new Vertex[3] { v1, v5, v4 });
-            triangles.Add(new Vertex[3] { v5, v8, v4 });
-            triangles.Add(new Vertex[3] { v2, v6, v3 });
-            triangles.Add(new Vertex[3] { v6, v7, v3 });
+            triangleIndexs.Add(new int[3] { 0, 1, 3 });
+            triangleIndexs.Add(new int[3] { 1, 2, 3 });
+            triangleIndexs.Add(new int[3] { 4, 5, 7 });
+            triangleIndexs.Add(new int[3] { 5, 6, 7 });
+            triangleIndexs.Add(new int[3] { 0, 1, 4 });
+            triangleIndexs.Add(new int[3] { 1, 5, 4 });
+            triangleIndexs.Add(new int[3] { 3, 2, 7 });
+            triangleIndexs.Add(new int[3] { 2, 6, 7 });
+            triangleIndexs.Add(new int[3] { 0, 4, 3 });
+            triangleIndexs.Add(new int[3] { 4, 7, 3 });
+            triangleIndexs.Add(new int[3] { 1, 5, 2 });
+            triangleIndexs.Add(new int[3] { 5, 6, 2 });
 
 
             lines.Add(new Vertex[2] { v1, v2 });
@@ -104,9 +104,9 @@ namespace softRender
             return vertexs;
         }
 
-        public List<Vertex[]> getTriagngles()
+        public List<int[]> getTriagngles()
         {
-            return triangles;
+            return triangleIndexs;
         }
 
         public List<Vertex[]> getLines()

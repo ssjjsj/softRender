@@ -11,7 +11,7 @@ namespace softRender
     {
         public class CullPlane
         {
-            private List<Plane> cullPlanes;
+            private List<Plane> cullPlanes = new List<Plane>();
 
             public List<Plane> getCullPlanes()
             {
@@ -30,6 +30,7 @@ namespace softRender
         }
 
         private List<Vertex[]> cullTriangles = new List<Vertex[]>();
+        private List<Vertex> newVertexs = new List<Vertex>();
         //private List<Vertex[]> culledTriangles;
 
         private List<Vertex> cullLine(Vertex p1, Vertex p2, Plane p)
@@ -66,6 +67,8 @@ namespace softRender
 
         private void cullTriangle(Vertex[] triangle, Plane p)
         {
+            cullTriangles.Remove(triangle);
+
             List<Vertex> vertexs = new List<Vertex>();
             vertexs.AddRange(cullLine(triangle[0], triangle[1], p));
             vertexs.AddRange(cullLine(triangle[1], triangle[2], p));
@@ -91,17 +94,50 @@ namespace softRender
             }
         }
 
-        public List<Vertex[]> CullTriangles(List<Vertex[]> triangles, CullPlane cullPlanes)
+        public void CullTriangles(Vertex[] vertexs, List<int[]> trianglesIndex, CullPlane cullPlanes)
         {
+            foreach (int[] indexs in trianglesIndex)
+            {
+                Vertex[] t = new Vertex[3];
+                t[0] = vertexs[indexs[0]];
+                t[1] = vertexs[indexs[1]];
+                t[2] = vertexs[indexs[2]];
+                cullTriangles.Add(t);
+            }
+
             foreach (Plane p in cullPlanes.getCullPlanes())
             {
-                foreach (Vertex[] triangle in cullTriangles)
+                Vertex[][] triAry = cullTriangles.ToArray();
+                int length = triAry.Length;
+                for (int i = 0; i < triAry.Length; i++)
                 {
-                    cullTriangle(triangle, p);
+                    cullTriangle(triAry[i], p);
                 }
             }
 
-            return cullTriangles;
+            List<Vertex> newVertex = new List<Vertex>();
+
+            foreach (Vertex[] t in cullTriangles)
+            {
+                if (!newVertex.Contains(t[0]))
+                    newVertex.Add(t[0]);
+                if (!newVertex.Contains(t[1]))
+                    newVertex.Add(t[1]);
+                if (!newVertex.Contains(t[2]))
+                    newVertex.Add(t[2]);
+            }
+
+            vertexs = newVertex.ToArray();
+            trianglesIndex.Clear();
+
+            foreach(Vertex[] t in cullTriangles)
+            {
+                int[] indexs = new int[3];
+                indexs[0] = newVertex.IndexOf(t[0]);
+                indexs[1] = newVertex.IndexOf(t[1]);
+                indexs[2] = newVertex.IndexOf(t[2]);
+                trianglesIndex.Add(indexs);
+            }
         }
     }
 }

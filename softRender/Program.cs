@@ -67,22 +67,22 @@ namespace softRender
             Camera c = new Camera(-10, -1000, (float)Math.PI/2,300, 300);
             Culler cull = new Culler();
 
-            Cube cube = new Cube(new Vector4(-5f, -5f, -20f, 1f), new Vector4(5f, 5.0f, -30f, 1.0f));
-            Matrix m = new Matrix();
-            //Matrix.Scaling(0.5f, 0.5f, 0.5f, out m);
-            //Matrix.RotationZ((float)Math.PI / 4, out m);
-            Vector3 v = new Vector3(0f, 0f, -25f);
-            Matrix.RotationAxis(ref v, (float)Math.PI / 10, out m);
-            //Matrix.Translation(0.0f, 0.0f, -15.0f, out m);
-            //Matrix.RotationYawPitchRoll(0.0f, (float)Math.PI / 4, 0.0f, out m);
+            //Cube cube = new Cube(new Vector4(-5f, -5f, -10f, 1f), new Vector4(5f, 5.0f, -20f, 1.0f));
+            //Matrix m = new Matrix();
+            ////Matrix.Scaling(0.5f, 0.5f, 0.5f, out m);
+            ////Matrix.RotationZ((float)Math.PI / 4, out m);
+            //Vector3 v = new Vector3(0f, 0f, -25f);
+            //Matrix.RotationAxis(ref v, (float)Math.PI / 10, out m);
+            ////Matrix.Translation(0.0f, 0.0f, -15.0f, out m);
+            ////Matrix.RotationYawPitchRoll(0.0f, (float)Math.PI / 4, 0.0f, out m);
 
 
 
-            //cube.transform(m);
+            ////cube.transform(m);
 
-            Vertex[] vertexs = cube.getVertexs();
-            List<Vertex[]> lines = cube.getLines();
-            List<Vertex[]> triangles = cube.getTriagngles();
+            //Vertex[] vertexs = cube.getVertexs();
+            //List<Vertex[]> lines = cube.getLines();
+            //List<int[]> trianglesIndex = cube.getTriagngles();
 
             //Vertex[] vertexs = new Vertex[8];
             //vertexs[0] = new Vertex();
@@ -142,28 +142,54 @@ namespace softRender
             //lines.Add(new Vertex[2] { v3, v7 });
             //lines.Add(new Vertex[2] { v4, v8 });
 
+            Vertex[] vertexs = new Vertex[3];
+            List<int[]> trianglesIndex = new List<int[]>();
+            int[] index = new int[3];
+            index[0] = 0;
+            index[1] = 1;
+            index[2] = 2;
+            trianglesIndex.Add(index);
+
+            vertexs[0] = new Vertex();
+            vertexs[0].pos = new Vector4(-180, -180, -20, 1);
+            vertexs[0].color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
+
+            vertexs[1] = new Vertex();
+            vertexs[1].pos = new Vector4(180, 180, -20, 1);
+            vertexs[1].color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
+
+            vertexs[2] = new Vertex();
+            vertexs[2].pos = new Vector4(0, 180, -20, 1);
+            vertexs[2].color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
+
             for (int i = 0; i < vertexs.Length; i++)
             {
-                vertexs[i].pos = mul(vertexs[i].pos, m);
+                //vertexs[i].pos = mul(vertexs[i].pos, m);
                 vertexs[i].pos = mul(vertexs[i].pos, c.getClipMatrix());
-                Culler.CullPlane plane = new Culler.CullPlane(new Plane(-width/2, height/2, near, 1), new Vector4(1, 0, 0, 1)),
-                    new Plane(width/2, height/2, near, 1), new Vector4(-1, 0, 0, 1)),
-                new Plane(-width/2, height/2, near, 1), new Vector4(0, -1, 0, 1)),
-                new Plane(-width/2, -height/2, near, 1), new Vector4(0, 1, 0, 1)),
-                new Plane(-width/2, height/2, near, 1), new Vector4(0, 0, -1, 1)),
-                new Plane(-width/2, height/2, far, 1), new Vector4(0, 0, 1, 1)),
-                    );
+            }
+
+            Culler.CullPlane plane = new Culler.CullPlane(new Plane(new Vector4(-width / 2, height / 2, near, 1), new Vector4(1, 0, 0, 1)),
+                new Plane(new Vector4(width / 2, height / 2, near, 1), new Vector4(-1, 0, 0, 1)),
+                new Plane(new Vector4(-width / 2, height / 2, near, 1), new Vector4(0, -1, 0, 1)),
+                new Plane(new Vector4(-width / 2, -height / 2, near, 1), new Vector4(0, 1, 0, 1)),
+                new Plane(new Vector4(-width / 2, height / 2, near, 1), new Vector4(0, 0, -1, 1)),
+                new Plane(new Vector4(-width / 2, height / 2, far, 1), new Vector4(0, 0, 1, 1))
+                );
+            cull.CullTriangles(vertexs, trianglesIndex, plane);
+
+            for (int i = 0; i < vertexs.Length; i++)
+            {
                 vertexs[i].pos = new Vector4(vertexs[i].pos.X / vertexs[i].pos.W, vertexs[i].pos.Y / vertexs[i].pos.W, vertexs[i].pos.Z / vertexs[i].pos.W, 1.0f);
                 vertexs[i].pos = mul(vertexs[i].pos, c.getClipToScreenMatrix());
             }
 
             while (true)
             {
-                foreach (Vertex[] line in lines)
+                foreach (int[] triangleIndex in trianglesIndex)
                 {
-                    r.drawLine(line, b);
+                    //r.drawLine(line, b);
+                    r.drawTriange(vertexs, triangleIndex, b, zBuffer);
                 }
-
                 s.Present(b);
             }
         }

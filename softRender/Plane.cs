@@ -9,6 +9,11 @@ namespace softRender
 {
     class Plane
     {
+        public Plane(Vector4 normal, Vector4 point)
+        {
+            this.normal = normal;
+            this.point = point;
+        }
         public Vector4 normal;
         public Vector4 point;
 
