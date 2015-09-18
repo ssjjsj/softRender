@@ -168,12 +168,12 @@ namespace softRender
                 vertexs[i].pos = mul(vertexs[i].pos, c.getClipMatrix());
             }
 
-            Culler.CullPlane plane = new Culler.CullPlane(new Plane(new Vector4(-width / 2, height / 2, near, 1), new Vector4(1, 0, 0, 1)),
-                new Plane(new Vector4(width / 2, height / 2, near, 1), new Vector4(-1, 0, 0, 1)),
-                new Plane(new Vector4(-width / 2, height / 2, near, 1), new Vector4(0, -1, 0, 1)),
-                new Plane(new Vector4(-width / 2, -height / 2, near, 1), new Vector4(0, 1, 0, 1)),
-                new Plane(new Vector4(-width / 2, height / 2, near, 1), new Vector4(0, 0, -1, 1)),
-                new Plane(new Vector4(-width / 2, height / 2, far, 1), new Vector4(0, 0, 1, 1))
+            Culler.CullPlane plane = new Culler.CullPlane(new Plane(new Vector4(-width / 2, height / 2, near, 1), new Vector4(1, 0, 0, 0)),
+                new Plane(new Vector4(width / 2, height / 2, near, 1), new Vector4(-1, 0, 0, 0)),
+                new Plane(new Vector4(-width / 2, height / 2, near, 1), new Vector4(0, -1, 0, 0)),
+                new Plane(new Vector4(-width / 2, -height / 2, near, 1), new Vector4(0, 1, 0, 0)),
+                new Plane(new Vector4(-width / 2, height / 2, near, 1), new Vector4(0, 0, -1, 0)),
+                new Plane(new Vector4(-width / 2, height / 2, far, 1), new Vector4(0, 0, 1, 0))
                 );
             cull.CullTriangles(vertexs, trianglesIndex, plane);
 

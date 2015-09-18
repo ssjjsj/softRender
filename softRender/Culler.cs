@@ -71,8 +71,17 @@ namespace softRender
 
             List<Vertex> vertexs = new List<Vertex>();
             vertexs.AddRange(cullLine(triangle[0], triangle[1], p));
-            vertexs.AddRange(cullLine(triangle[1], triangle[2], p));
-            vertexs.AddRange(cullLine(triangle[2], triangle[0], p));
+            foreach (Vertex v in cullLine(triangle[1], triangle[2], p))
+            {
+                if (!vertexs.Contains(v))
+                    vertexs.Add(v);
+            }
+
+            foreach (Vertex v in cullLine(triangle[2], triangle[0], p))
+            {
+                if (!vertexs.Contains(v))
+                    vertexs.Add(v);
+            }
  
             if (vertexs.Count == 3)
             {
