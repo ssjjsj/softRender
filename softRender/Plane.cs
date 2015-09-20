@@ -19,23 +19,28 @@ namespace softRender
 
         public float getDotValue(Vector4 p)
         {
-            return Vector4.Dot(normal, p-point);
+            float temp = Vector4.Dot(normal, point-p);
+            if (Math.Abs(temp) < 0.0001)
+                temp = 0.0f;
+            return temp;
         }
 
         public Vertex getInsertValue(Vertex p1, Vertex p2)
         {
             Vector4 pos1 = p1.pos;
             Vector4 pos2 = p2.pos;
+            
+            Vector3 dir = new Vector3(pos2.X - pos1.X, pos2.Y - pos1.Y, pos2.Z - pos1.Z);
+            Vector3 p = new Vector3(point.X, point.Y, point.Z);
+            Vector3 pos = new Vector3(pos1.X, pos1.Y, pos1.Z);
+            Vector3 n = new Vector3(normal.X, normal.Y, normal.Z);
+            Vector3 tempV = p-pos;
 
-            float temp = -(pos1.X * normal.X + pos1.Y * normal.Y + pos1.Z * normal.Z + pos1.W * normal.W) /
-                (pos2.X * normal.X + pos2.Y * normal.Y + pos2.Z * normal.Z + pos2.W * normal.W);
-
-            Vector4 pos = p1.pos + temp * pos2;
-            Color4 c = p1.color + temp * p1.color;
+            float temp = Vector3.Dot(tempV, n) / Vector3.Dot(n, dir);
 
             Vertex v = new Vertex();
-            v.pos = pos;
-            v.color = c;
+            v.pos = p1.pos + temp * pos2;
+            v.color = p1.color + temp * p1.color;
 
             return v;
         }

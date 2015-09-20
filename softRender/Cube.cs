@@ -14,7 +14,7 @@ namespace softRender
 
         Vertex[] vertexs = new Vertex[8];
         List<int[]> triangleIndexs = new List<int[]>();
-        List<Vertex[]> lines = new List<Vertex[]>();
+        List<int[]> lines = new List<int[]>();
         public Cube(Vector4 minPos, Vector4 maxPos)
         {
             this.minPos = minPos;
@@ -75,20 +75,20 @@ namespace softRender
             triangleIndexs.Add(new int[3] { 5, 6, 2 });
 
 
-            lines.Add(new Vertex[2] { v1, v2 });
-            lines.Add(new Vertex[2] { v2, v3 });
-            lines.Add(new Vertex[2] { v3, v4 });
-            lines.Add(new Vertex[2] { v4, v1 });
+            lines.Add(new int[2] { 0, 1 });
+            lines.Add(new int[2] { 1, 2 });
+            lines.Add(new int[2] { 2, 3 });
+            lines.Add(new int[2] { 3, 0 });
 
-            lines.Add(new Vertex[2] { v5, v6 });
-            lines.Add(new Vertex[2] { v6, v7 });
-            lines.Add(new Vertex[2] { v7, v8 });
-            lines.Add(new Vertex[2] { v8, v5 });
+            lines.Add(new int[2] { 4, 5 });
+            lines.Add(new int[2] { 5, 6 });
+            lines.Add(new int[2] { 6, 7 });
+            lines.Add(new int[2] { 7, 4 });
 
-            lines.Add(new Vertex[2] { v1, v5 });
-            lines.Add(new Vertex[2] { v2, v6 });
-            lines.Add(new Vertex[2] { v3, v7 });
-            lines.Add(new Vertex[2] { v4, v8 });
+            lines.Add(new int[2] { 0, 4 });
+            lines.Add(new int[2] { 1, 5 });
+            lines.Add(new int[2] { 2, 6 });
+            lines.Add(new int[2] { 3, 7 });
         }
 
         public void transform(Matrix m)
@@ -109,7 +109,7 @@ namespace softRender
             return triangleIndexs;
         }
 
-        public List<Vertex[]> getLines()
+        public List<int[]> getLines()
         {
             return lines;
         }

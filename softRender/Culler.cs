@@ -18,6 +18,16 @@ namespace softRender
                 return cullPlanes;
             }
 
+            public CullPlane()
+            {
+                //cullPlanes.Add(new Plane(new Vector4(-1, 1, 1, 1), new Vector4(0, 0, 1, 0)));
+                //cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(1, 0, 0, 0)));
+                //cullPlanes.Add(new Plane(new Vector4(1, 1, 0, 1), new Vector4(-1, 0, 0, 0)));
+                //cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, -1, 0, 0)));
+                //cullPlanes.Add(new Plane(new Vector4(-1, -1, 0, 1), new Vector4(0, 1, 0, 0)));
+                //cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, 0, -1, 0)));
+            }
+
             public CullPlane(Plane left, Plane right, Plane top, Plane buttom, Plane front, Plane back)
             {
                 cullPlanes.Add(left);
@@ -46,6 +56,10 @@ namespace softRender
                 {
                     list.Add(p1);
                     list.Add(p2);
+                }
+                else
+                {
+                    string s = "wtf";
                 }
             }
             else
@@ -118,10 +132,12 @@ namespace softRender
             {
                 Vertex[][] triAry = cullTriangles.ToArray();
                 int length = triAry.Length;
+                
                 for (int i = 0; i < triAry.Length; i++)
                 {
                     cullTriangle(triAry[i], p);
                 }
+                System.Console.Write(cullTriangles.Count.ToString() + "\n");
             }
 
             List<Vertex> newVertex = new List<Vertex>();
@@ -136,8 +152,10 @@ namespace softRender
                     newVertex.Add(t[2]);
             }
 
-            vertexs = newVertex.ToArray();
+            //vertexs = newVertex.ToArray();
             trianglesIndex.Clear();
+
+ 
 
             foreach(Vertex[] t in cullTriangles)
             {
@@ -145,7 +163,25 @@ namespace softRender
                 indexs[0] = newVertex.IndexOf(t[0]);
                 indexs[1] = newVertex.IndexOf(t[1]);
                 indexs[2] = newVertex.IndexOf(t[2]);
+
+                System.Console.Write(newVertex.IndexOf(t[0]).ToString() + "  " + Array.IndexOf<Vertex>(vertexs, t[0]).ToString()+"/");
+                System.Console.Write(newVertex.IndexOf(t[1]).ToString() + "  " + Array.IndexOf<Vertex>(vertexs, t[1]).ToString() + "/");
+                System.Console.Write(newVertex.IndexOf(t[2]).ToString() + "  " + Array.IndexOf<Vertex>(vertexs, t[2]).ToString() + "\n");
                 trianglesIndex.Add(indexs);
+            }
+
+            System.Console.Write("new one\n");
+            foreach (Vertex v in vertexs)
+            {
+                System.Console.Write(v.pos.ToString());
+            }
+
+            foreach (int[] index in trianglesIndex)
+            {
+                System.Console.Write(index[0] + " ");
+                System.Console.Write(index[1] + " ");
+                System.Console.Write(index[2] + "/n");
+
             }
         }
     }

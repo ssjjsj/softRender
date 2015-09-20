@@ -78,8 +78,11 @@ namespace softRender
         }
 
 
-        public void drawLine(Vertex[] line, Buffer<Color4> outPut)
+        public void drawLine(Vertex[] vertexs, int[] indexs, Buffer<Color4> outPut)
         {
+            Vertex[] line = new Vertex[2];
+            line[0] = vertexs[indexs[0]];
+            line[1] = vertexs[indexs[1]];
             Array.Sort(line, (l1, l2) => l1.pos.X.CompareTo(l2.pos.X));
             Color4 c = line[0].color;
             int posX1 = (int)line[0].pos.X;
