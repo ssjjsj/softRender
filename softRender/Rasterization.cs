@@ -11,24 +11,28 @@ namespace softRender
     {
         public void drawTriange(Vertex[] vertexList, int[] index, Buffer<Color4> outPutBuffer, Buffer<float> zBuffer)
         {
-            float tMinX = vertexList[index[0]].pos.X;
-            float tMinY = vertexList[index[0]].pos.Y;
-            float tMaxX = vertexList[index[0]].pos.X;
-            float tMaxY = vertexList[index[0]].pos.Y;
+            Vertex v1 = vertexList[index[0]];
+            Vertex v2 = vertexList[index[1]];
+            Vertex v3 = vertexList[index[2]];
+            float tMinX =v1.pos.X;
+            float tMinY = v1.pos.Y;
+            float tMaxX = v1.pos.X;
+            float tMaxY = v1.pos.Y;
 
             for (int i = 0; i < 3; i++)
             {
-                if (vertexList[index[i]].pos.X < tMinX)
-                    tMinX = vertexList[index[i]].pos.X;
+                Vertex v = vertexList[index[i]];
+                if (v.pos.X < tMinX)
+                    tMinX = v.pos.X;
 
-                if (vertexList[index[i]].pos.Y < tMinY)
-                    tMinY = vertexList[index[i]].pos.Y;
+                if (v.pos.Y < tMinY)
+                    tMinY = v.pos.Y;
 
-                if (vertexList[index[i]].pos.X > tMaxX)
-                    tMaxX = vertexList[index[i]].pos.X;
+                if (v.pos.X > tMaxX)
+                    tMaxX = v.pos.X;
 
-                if (vertexList[index[i]].pos.Y > tMaxY)
-                    tMaxY = vertexList[index[i]].pos.Y;
+                if (v.pos.Y > tMaxY)
+                    tMaxY = v.pos.Y;
             }
 
 
@@ -41,12 +45,12 @@ namespace softRender
             {
                 for (int posY = minY; posY <= maxY; posY++)
                 {
-                    float posX0 = vertexList[index[0]].pos.X;
-                    float posX1 = vertexList[index[1]].pos.X;
-                    float posX2 = vertexList[index[2]].pos.X;
-                    float posY0 = vertexList[index[0]].pos.Y;
-                    float posY1 = vertexList[index[1]].pos.Y;
-                    float posY2 = vertexList[index[2]].pos.Y;
+                    float posX0 = v1.pos.X;
+                    float posX1 = v2.pos.X;
+                    float posX2 = v3.pos.X;
+                    float posY0 = v1.pos.Y;
+                    float posY1 = v2.pos.Y;
+                    float posY2 = v3.pos.Y;
 
                     float index0 = ((posY1 - posY2) * posX + (posX2 - posX1) * posY + posX1 * posY2 - posX2 * posY1) /
                         ((posY1 - posY2) * posX0 + (posX2 - posX1) * posY0 + posX1 * posY2 - posX2 * posY1);
@@ -60,11 +64,11 @@ namespace softRender
                     if (index0 > 0 && index1 > 0 && index2 > 0)
                     {
                         Color4 c = new Color4();
-                        c.Alpha = vertexList[index[0]].color.Alpha * index0 + vertexList[index[1]].color.Alpha * index1 + vertexList[index[2]].color.Alpha * index2;
-                        c.Red = vertexList[index[0]].color.Red * index0 + vertexList[index[1]].color.Red * index1 + vertexList[index[2]].color.Red * index2;
-                        c.Green = vertexList[index[0]].color.Green * index0 + vertexList[index[1]].color.Green * index1 + vertexList[index[2]].color.Green * index2;
-                        c.Blue = vertexList[index[0]].color.Blue * index0 + vertexList[index[1]].color.Blue * index1 + vertexList[index[2]].color.Blue * index2;
-                        float z = vertexList[index[0]].pos.Z * index0 + vertexList[index[1]].pos.Z * index1 + vertexList[index[2]].pos.Z * index2;
+                        c.Alpha = v1.color.Alpha * index0 + v2.color.Alpha * index1 + v3.color.Alpha * index2;
+                        c.Red = v1.color.Red * index0 + v2.color.Red * index1 + v3.color.Red * index2;
+                        c.Green = v1.color.Green * index0 + v2.color.Green * index1 + v3.color.Green * index2;
+                        c.Blue = v1.color.Blue * index0 + v2.color.Blue * index1 + v3.color.Blue * index2;
+                        float z = v1.pos.Z * index0 + v2.pos.Z * index1 + v3.pos.Z * index2;
 
                         float curZ = zBuffer.readOneData(posX, posY);
                         if (z > curZ)

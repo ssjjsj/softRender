@@ -25,7 +25,7 @@ namespace softRender
             int height = 300;
             int near = -10;
             int far = -1000;
-            Surface s = new ImageSurface(300, 300);
+            Surface s = new FormSurface(300, 300);
             Buffer<Color4> b = new Buffer<Color4>(300, 300, new Color4(1.0f, 1.0f, 1.0f, 1.0f));
             Buffer<float> zBuffer = new Buffer<float>(300, 300, -1f);
             Rasterization r = new Rasterization();
@@ -187,10 +187,12 @@ namespace softRender
 
             while (true)
             {
+                int i = 0;
                 foreach (int[] triangle in trianglesIndex)
                 {
                     //r.drawLine(vertexs, line, b);
                     r.drawTriange(vertexs, triangle, b, zBuffer);
+                    i++;
                 }
                 s.Present(b);
             }

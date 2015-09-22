@@ -122,9 +122,12 @@ namespace softRender
             foreach (int[] indexs in trianglesIndex)
             {
                 Vertex[] t = new Vertex[3];
-                t[0] = vertexs[indexs[0]];
-                t[1] = vertexs[indexs[1]];
-                t[2] = vertexs[indexs[2]];
+                int index1 = indexs[0];
+                t[0] = vertexs[index1];
+                int index2 = indexs[1];
+                t[1] = vertexs[index2];
+                int index3 = indexs[2];
+                t[2] = vertexs[index3];
                 cullTriangles.Add(t);
             }
 
@@ -152,7 +155,7 @@ namespace softRender
                     newVertex.Add(t[2]);
             }
 
-            //vertexs = newVertex.ToArray();
+            vertexs = newVertex.ToArray();
             trianglesIndex.Clear();
 
  
@@ -163,25 +166,7 @@ namespace softRender
                 indexs[0] = newVertex.IndexOf(t[0]);
                 indexs[1] = newVertex.IndexOf(t[1]);
                 indexs[2] = newVertex.IndexOf(t[2]);
-
-                System.Console.Write(newVertex.IndexOf(t[0]).ToString() + "  " + Array.IndexOf<Vertex>(vertexs, t[0]).ToString()+"/");
-                System.Console.Write(newVertex.IndexOf(t[1]).ToString() + "  " + Array.IndexOf<Vertex>(vertexs, t[1]).ToString() + "/");
-                System.Console.Write(newVertex.IndexOf(t[2]).ToString() + "  " + Array.IndexOf<Vertex>(vertexs, t[2]).ToString() + "\n");
                 trianglesIndex.Add(indexs);
-            }
-
-            System.Console.Write("new one\n");
-            foreach (Vertex v in vertexs)
-            {
-                System.Console.Write(v.pos.ToString());
-            }
-
-            foreach (int[] index in trianglesIndex)
-            {
-                System.Console.Write(index[0] + " ");
-                System.Console.Write(index[1] + " ");
-                System.Console.Write(index[2] + "/n");
-
             }
         }
     }

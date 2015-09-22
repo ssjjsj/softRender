@@ -69,10 +69,10 @@ namespace softRender
             triangleIndexs.Add(new int[3] { 1, 5, 4 });
             triangleIndexs.Add(new int[3] { 3, 2, 7 });
             triangleIndexs.Add(new int[3] { 2, 6, 7 });
-            triangleIndexs.Add(new int[3] { 0, 4, 3 });
-            triangleIndexs.Add(new int[3] { 4, 7, 3 });
-            triangleIndexs.Add(new int[3] { 1, 5, 2 });
-            triangleIndexs.Add(new int[3] { 5, 6, 2 });
+            triangleIndexs.Add(new int[3] { 0, 3, 4 });
+            triangleIndexs.Add(new int[3] { 3, 7, 4 });
+            triangleIndexs.Add(new int[3] { 1, 2, 5 });
+            triangleIndexs.Add(new int[3] { 2, 6, 5 });
 
 
             lines.Add(new int[2] { 0, 1 });
