@@ -20,12 +20,13 @@ namespace softRender
 
             public CullPlane()
             {
-                //cullPlanes.Add(new Plane(new Vector4(-1, 1, 1, 1), new Vector4(0, 0, 1, 0)));
-                //cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(1, 0, 0, 0)));
-                //cullPlanes.Add(new Plane(new Vector4(1, 1, 0, 1), new Vector4(-1, 0, 0, 0)));
-                //cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, -1, 0, 0)));
-                //cullPlanes.Add(new Plane(new Vector4(-1, -1, 0, 1), new Vector4(0, 1, 0, 0)));
-                //cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, 0, -1, 0)));
+               
+                cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(1, 0, 0, 0)));
+                cullPlanes.Add(new Plane(new Vector4(1, 1, 0, 1), new Vector4(-1, 0, 0, 0)));
+                cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, -1, 0, 0)));
+                cullPlanes.Add(new Plane(new Vector4(-1, -1, 0, 1), new Vector4(0, 1, 0, 0)));
+                cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, 0, 1, 0)));
+                cullPlanes.Add(new Plane(new Vector4(-1, 1, 1, 1), new Vector4(0, 0, -1, 0)));
             }
 
             public CullPlane(Plane left, Plane right, Plane top, Plane buttom, Plane front, Plane back)
@@ -140,6 +141,18 @@ namespace softRender
                 {
                     cullTriangle(triAry[i], p);
                 }
+                List<Vertex> newVertex1 = new List<Vertex>();
+
+                foreach (Vertex[] t in cullTriangles)
+                {
+                    if (!newVertex1.Contains(t[0]))
+                        newVertex1.Add(t[0]);
+                    if (!newVertex1.Contains(t[1]))
+                        newVertex1.Add(t[1]);
+                    if (!newVertex1.Contains(t[2]))
+                        newVertex1.Add(t[2]);
+                }
+
                 System.Console.Write(cullTriangles.Count.ToString() + "\n");
             }
 

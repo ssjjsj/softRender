@@ -19,7 +19,7 @@ namespace softRender
 
         public float getDotValue(Vector4 p)
         {
-            float temp = Vector4.Dot(normal, point-p);
+            float temp = Vector4.Dot(normal, p-point);
             if (Math.Abs(temp) < 0.0001)
                 temp = 0.0f;
             return temp;
@@ -39,7 +39,8 @@ namespace softRender
             float temp = Vector3.Dot(tempV, n) / Vector3.Dot(n, dir);
 
             Vertex v = new Vertex();
-            v.pos = p1.pos + temp * pos2;
+            Vector3 result = pos + temp * dir;
+            v.pos = new Vector4(result.X, result.Y, result.Z, 1.0f);
             v.color = p1.color + temp * p1.color;
 
             return v;

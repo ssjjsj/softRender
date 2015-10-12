@@ -71,7 +71,7 @@ namespace softRender
                         float z = v1.pos.Z * index0 + v2.pos.Z * index1 + v3.pos.Z * index2;
 
                         float curZ = zBuffer.readOneData(posX, posY);
-                        if (z > curZ)
+                        if (z < curZ)
                         {
                             zBuffer.writeOneData(posX, posY, z);
                             outPutBuffer.writeOneData(posX, posY, c);
