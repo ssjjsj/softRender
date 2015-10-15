@@ -27,7 +27,11 @@ namespace softRender
             int far = -1000;
             Surface s = new FormSurface(300, 300);
             Buffer<Color4> b = new Buffer<Color4>(300, 300, new Color4(1.0f, 1.0f, 1.0f, 1.0f));
-            Buffer<float> zBuffer = new Buffer<float>(300, 300, -1f);
+            Buffer<float> zBuffer = new Buffer<float>(300, 300, 1.0f);
+
+
+
+
             Rasterization r = new Rasterization();
 
 

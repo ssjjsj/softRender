@@ -20,12 +20,12 @@ namespace softRender
 
             public CullPlane()
             {
-                //cullPlanes.Add(new Plane(new Vector4(-1, 1, 1, 1), new Vector4(0, 0, 1, 0)));
-                //cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(1, 0, 0, 0)));
-                //cullPlanes.Add(new Plane(new Vector4(1, 1, 0, 1), new Vector4(-1, 0, 0, 0)));
-                //cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, -1, 0, 0)));
-                //cullPlanes.Add(new Plane(new Vector4(-1, -1, 0, 1), new Vector4(0, 1, 0, 0)));
-                //cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, 0, -1, 0)));
+                cullPlanes.Add(new Plane(new Vector4(-1, 1, 1, 1), new Vector4(0, 0, 1, 0)));
+                cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(1, 0, 0, 0)));
+                cullPlanes.Add(new Plane(new Vector4(1, 1, 0, 1), new Vector4(-1, 0, 0, 0)));
+                cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, -1, 0, 0)));
+                cullPlanes.Add(new Plane(new Vector4(-1, -1, 0, 1), new Vector4(0, 1, 0, 0)));
+                cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, 0, -1, 0)));
             }
 
             public CullPlane(Plane left, Plane right, Plane top, Plane buttom, Plane front, Plane back)
@@ -43,9 +43,32 @@ namespace softRender
         private List<Vertex> newVertexs = new List<Vertex>();
         //private List<Vertex[]> culledTriangles;
 
+        private class CullLine
+        {
+            public List<Vertex> inputList = new List<Vertex>();
+            public List<Vertex> outPutList;
+            public Plane plane;
+        }
+
+        private List<CullLine> cullLineList = new List<CullLine>();
+
+        List<Vertex> getPreCullList(Vertex p1, Vertex p2, Plane p)
+        {
+            CullLine cullLine  = cullLineList.Find(x=> x.inputList.Contains(p1) && x.inputList.Contains(p2) && x.plane == p);
+            
+            if (cullLine != null)
+                return cullLine.outPutList;
+            else
+                return null;
+        }
+
         private List<Vertex> cullLine(Vertex p1, Vertex p2, Plane p)
         {
-            List<Vertex> list = new List<Vertex>();
+            List<Vertex> list = getPreCullList(p1, p2, p);
+            if (list != null)
+                return list;
+
+            list = new List<Vertex>();
             float value1 = p.getDotValue(p1.pos);
             float value2 = p.getDotValue(p2.pos);
 
@@ -75,6 +98,12 @@ namespace softRender
                     list.Add(p2);
                 }
             }
+
+            CullLine cullLine = new CullLine();
+            cullLine.inputList.Add(p1);
+            cullLine.inputList.Add(p2);
+            cullLine.plane = p;
+            cullLine.outPutList = list;
 
             return list;
         }
