@@ -61,18 +61,18 @@ namespace softRender
             vertexs[6] = v7;
             vertexs[7] = v8;
 
-            triangleIndexs.Add(new int[3] { 0, 1, 3 });
-            triangleIndexs.Add(new int[3] { 1, 2, 3 });
-            triangleIndexs.Add(new int[3] { 4, 5, 7 });
-            triangleIndexs.Add(new int[3] { 5, 6, 7 });
-            triangleIndexs.Add(new int[3] { 0, 1, 4 });
-            triangleIndexs.Add(new int[3] { 1, 5, 4 });
-            triangleIndexs.Add(new int[3] { 3, 2, 7 });
-            triangleIndexs.Add(new int[3] { 2, 6, 7 });
-            triangleIndexs.Add(new int[3] { 0, 3, 4 });
+            triangleIndexs.Add(new int[3] { 2, 3, 0 });
+            triangleIndexs.Add(new int[3] { 0, 1, 2 });
+            triangleIndexs.Add(new int[3] { 6, 2, 1 });
+            triangleIndexs.Add(new int[3] { 1, 5, 6 });
+            triangleIndexs.Add(new int[3] { 4, 7, 6 });
+            triangleIndexs.Add(new int[3] { 6, 5, 4 });
             triangleIndexs.Add(new int[3] { 3, 7, 4 });
-            triangleIndexs.Add(new int[3] { 1, 2, 5 });
-            triangleIndexs.Add(new int[3] { 2, 6, 5 });
+            triangleIndexs.Add(new int[3] { 4, 0, 3 });
+            triangleIndexs.Add(new int[3] { 6, 7, 3 });
+            triangleIndexs.Add(new int[3] { 3, 2, 6 });
+            triangleIndexs.Add(new int[3] { 0, 4, 5 });
+            triangleIndexs.Add(new int[3] { 5, 1, 0 });
 
 
             lines.Add(new int[2] { 0, 1 });

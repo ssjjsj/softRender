@@ -25,13 +25,9 @@ namespace softRender
             int height = 300;
             int near = -10;
             int far = -1000;
-            Surface s = new FormSurface(300, 300);
+            Surface s = new ImageSurface(300, 300);
             Buffer<Color4> b = new Buffer<Color4>(300, 300, new Color4(1.0f, 1.0f, 1.0f, 1.0f));
             Buffer<float> zBuffer = new Buffer<float>(300, 300, 1.0f);
-
-
-
-
             Rasterization r = new Rasterization();
 
 
@@ -68,10 +64,10 @@ namespace softRender
 
         //    //vertexs.Add(tringleAry);
 
-            Camera c = new Camera(-10, -1000, (float)Math.PI/2,300, 300);
+            Camera c = new Camera(10, 1000, (float)Math.PI/2,300, 300);
             Culler cull = new Culler();
 
-            Cube cube = new Cube(new Vector4(-5f, -5f, -10f, 1f), new Vector4(5f, 5f, -20f, 1.0f));
+            Cube cube = new Cube(new Vector4(-15f, -15f, 11f, 1f), new Vector4(15f, 15f, 41f, 1.0f));
             Matrix m = new Matrix();
             //Matrix.Scaling(0.5f, 0.5f, 0.5f, out m);
             //Matrix.RotationZ((float)Math.PI / 4, out m);
@@ -182,7 +178,7 @@ namespace softRender
             //    new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, 0, -1, 0))
             //    );
             Culler.CullPlane plane = new Culler.CullPlane();
-            cull.CullTriangles(vertexs, trianglesIndex, plane);
+            cull.CullTriangles(ref vertexs, ref trianglesIndex, plane);
 
             for (int i = 0; i < vertexs.Length; i++)
             {

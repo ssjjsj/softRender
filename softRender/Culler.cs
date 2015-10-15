@@ -20,12 +20,12 @@ namespace softRender
 
             public CullPlane()
             {
-                cullPlanes.Add(new Plane(new Vector4(-1, 1, 1, 1), new Vector4(0, 0, 1, 0)));
                 cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(1, 0, 0, 0)));
                 cullPlanes.Add(new Plane(new Vector4(1, 1, 0, 1), new Vector4(-1, 0, 0, 0)));
                 cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, -1, 0, 0)));
                 cullPlanes.Add(new Plane(new Vector4(-1, -1, 0, 1), new Vector4(0, 1, 0, 0)));
-                cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, 0, -1, 0)));
+                cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, 0, 1, 0)));
+                cullPlanes.Add(new Plane(new Vector4(-1, 1, 1, 1), new Vector4(0, 0, -1, 0)));
             }
 
             public CullPlane(Plane left, Plane right, Plane top, Plane buttom, Plane front, Plane back)
@@ -73,28 +73,30 @@ namespace softRender
             float value2 = p.getDotValue(p2.pos);
 
             float temp = value1 * value2;
-            if (temp > 0)
+            if (temp >= 0)
             {
                 if (value1>0 && value2 > 0)
                 {
                     list.Add(p1);
                     list.Add(p2);
                 }
-                else
+                else if (value1>0 && value2==0 || value2>0 && value1==0)
                 {
-                    string s = "wtf";
+                    list.Add(p1);
+                    list.Add(p2);
                 }
             }
             else
             {
                 Vertex v = p.getInsertValue(p1, p2);
-                list.Add(v);
                 if (value1 > 0)
                 {
                     list.Add(p1);
+                    list.Add(v);
                 }
                 else
                 {
+                    list.Add(v);
                     list.Add(p2);
                 }
             }
@@ -104,6 +106,7 @@ namespace softRender
             cullLine.inputList.Add(p2);
             cullLine.plane = p;
             cullLine.outPutList = list;
+            cullLineList.Add(cullLine);
 
             return list;
         }
@@ -128,7 +131,7 @@ namespace softRender
  
             if (vertexs.Count == 3)
             {
-                cullTriangles.Add(vertexs.ToArray());
+                addNewCullTriangle(vertexs.ToArray());
             }
             else if (vertexs.Count == 4)
             {
@@ -136,17 +139,26 @@ namespace softRender
                 newTriangle[0] = vertexs[0];
                 newTriangle[1] = vertexs[1];
                 newTriangle[2] = vertexs[2];
-                cullTriangles.Add(newTriangle);
+                addNewCullTriangle(newTriangle);
 
                 newTriangle = new Vertex[3];
                 newTriangle[0] = vertexs[2];
                 newTriangle[1] = vertexs[3];
                 newTriangle[2] = vertexs[0];
-                cullTriangles.Add(newTriangle);
+                addNewCullTriangle(newTriangle);
             }
         }
 
-        public void CullTriangles(Vertex[] vertexs, List<int[]> trianglesIndex, CullPlane cullPlanes)
+        private void addNewCullTriangle(Vertex[] triangle)
+        {
+            Vertex[] list = cullTriangles.Find(x => x.Contains(triangle[0]) && x.Contains(triangle[1]) && x.Contains(triangle[2]));
+            if (list == null)
+            {
+                cullTriangles.Add(triangle);
+            }
+        }
+
+        public void CullTriangles(ref Vertex[] vertexs, ref List<int[]> trianglesIndex, CullPlane cullPlanes)
         {
             foreach (int[] indexs in trianglesIndex)
             {
@@ -169,6 +181,18 @@ namespace softRender
                 {
                     cullTriangle(triAry[i], p);
                 }
+                List<Vertex> newVertex1 = new List<Vertex>();
+
+                foreach (Vertex[] t in cullTriangles)
+                {
+                    if (!newVertex1.Contains(t[0]))
+                        newVertex1.Add(t[0]);
+                    if (!newVertex1.Contains(t[1]))
+                        newVertex1.Add(t[1]);
+                    if (!newVertex1.Contains(t[2]))
+                        newVertex1.Add(t[2]);
+                }
+
                 System.Console.Write(cullTriangles.Count.ToString() + "\n");
             }
 

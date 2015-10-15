@@ -48,10 +48,10 @@ namespace softRender
         public Matrix getClipToScreenMatrix()
         {
             Matrix m = new Matrix();
-            m.M11 = -width / 2;
-            m.M22 = -height / 2;
-            m.M41 = (width-1) / 2;
-            m.M42 = (height-1) / 2;
+            m.M11 = width / 2;
+            m.M22 = height / 2;
+            m.M41 = (width - 1) / 2;
+            m.M42 = (height - 1) / 2;
             m.M33 = 1;
             m.M44 = 1;
 
