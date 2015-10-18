@@ -42,11 +42,15 @@ namespace softRender
             Vector3 result = pos + temp * dir;
             v.pos = new Vector4(result.X, result.Y, result.Z, 1.0f);
             v.color = p1.color + temp * (p1.color-p2.color);
+            v.uv = p1.uv + temp * (p1.uv - p2.uv);
 
             v.color.Alpha = range(v.color.Alpha, 0, 1);
             v.color.Red = range(v.color.Red, 0, 1);
             v.color.Green = range(v.color.Green, 0, 1);
             v.color.Blue = range(v.color.Blue, 0, 1);
+
+            v.uv.X = range(v.uv.X, 0, 1);
+            v.uv.Y = range(v.uv.Y, 0, 1);
 
             return v;
         }

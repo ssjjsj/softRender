@@ -9,7 +9,7 @@ namespace softRender
 {
     class Rasterization
     {
-        public void drawTriange(Vertex[] vertexList, int[] index, Buffer<Color4> outPutBuffer, Buffer<float> zBuffer)
+        public void drawTriange(Vertex[] vertexList, int[] index, Buffer<Color4> outPutBuffer, Buffer<float> zBuffer, Texture t)
         {
             Vertex v1 = vertexList[index[0]];
             Vertex v2 = vertexList[index[1]];
@@ -74,7 +74,16 @@ namespace softRender
                         if (z < curZ)
                         {
                             zBuffer.writeOneData(posX, posY, z);
-                            outPutBuffer.writeOneData(posX, posY, c);
+                            if (t != null)
+                            {
+                                float u = v1.uv.X * index0 + v2.uv.X * index1 + v3.uv.X * index2;
+                                float v = v1.uv.Y * index0 + v2.uv.Y * index1 + v3.uv.Y * index2;
+                                outPutBuffer.writeOneData(posX, posY, t.getPixel(u, v));
+                            }
+                            else
+                            {
+                                outPutBuffer.writeOneData(posX, posY, c);
+                            }
                         }
                     }
                 }

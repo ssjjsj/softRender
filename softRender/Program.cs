@@ -31,152 +31,38 @@ namespace softRender
             Rasterization r = new Rasterization();
 
 
-
-        //    List<Vertex[]> vertexs = new List<Vertex[]>();
-
-        //    //Vertex[] tringleAry = new Vertex[3];
-        //    //tringleAry[0] = new Vertex();
-        //    //tringleAry[0].pos = new SlimDX.Vector4(-150, 0, -10, 1);
-        //    //tringleAry[0].color = new SlimDX.Color4(1.0f, 1.0f, 0.0f, 0.0f);
-
-        //    //tringleAry[1] = new Vertex();
-        //    //tringleAry[1].pos = new SlimDX.Vector4(150, 0, -10, 1);
-        //    //tringleAry[1].color = new SlimDX.Color4(1.0f, 0.0f, 1.0f, 0.0f);
-
-        //    //tringleAry[2] = new Vertex();
-        //    //tringleAry[2].pos = new SlimDX.Vector4(0, 150, -10, 1);
-        //    //tringleAry[2].color = new SlimDX.Color4(1.0f, 0.0f, 0.0f, 1.0f);
-
-        //    //vertexs.Add(tringleAry);
-
-        //    //tringleAry = new Vertex[3];
-        //    //tringleAry[0] = new Vertex();
-        //    //tringleAry[0].pos = new SlimDX.Vector4(-150, 0, -10, 1);
-        //    //tringleAry[0].color = new SlimDX.Color4(1.0f, 1.0f, 0.0f, 0.0f);
-
-        //    //tringleAry[1] = new Vertex();
-        //    //tringleAry[1].pos = new SlimDX.Vector4(150, 0, -10, 1);
-        //    //tringleAry[1].color = new SlimDX.Color4(1.0f, 0.0f, 1.0f, 0.0f);
-
-        //    //tringleAry[2] = new Vertex();
-        //    //tringleAry[2].pos = new SlimDX.Vector4(0, -150, -10, 1);
-        //    //tringleAry[2].color = new SlimDX.Color4(1.0f, 0.0f, 0.0f, 1.0f);
-
-        //    //vertexs.Add(tringleAry);
-
             Camera c = new Camera(10, 1000, (float)Math.PI/2,300, 300);
             Culler cull = new Culler();
 
-            Cube cube = new Cube(new Vector4(-15f, -15f, 11f, 1f), new Vector4(15f, 15f, 41f, 1.0f));
+            Cube cube = new Cube(new Vector4(-5f, -5f, -5f, 1f), new Vector4(5f, 5f, 5f, 1.0f));
+            Matrix m1 = Matrix.Identity;
+            Matrix m2 = Matrix.Identity;
+            Matrix m3 = Matrix.Identity;
             Matrix m = new Matrix();
-            //Matrix.Scaling(0.5f, 0.5f, 0.5f, out m);
-            //Matrix.RotationZ((float)Math.PI / 4, out m);
-            Vector3 v = new Vector3(0f, 0f, -25f);
-            Matrix.RotationAxis(ref v, (float)Math.PI / 10, out m);
-            //Matrix.Translation(0.0f, 0.0f, -15.0f, out m);
-            //Matrix.RotationYawPitchRoll(0.0f, (float)Math.PI / 4, 0.0f, out m);
+            Matrix.Scaling(10f, 10f, 10f, out m1);
+            Matrix.RotationY((float)Math.PI / 4, out m2);
+            Matrix.Translation(0.0f, 0.0f, 125.0f, out m3);
+            m = m1* m2 * m3;
 
+            Vertex[] vertexs;
+            List<int[]> trianglesIndex;
 
+            ObjPaser p = new ObjPaser();
+            p.PaserObj("media/sponza.obj",  out vertexs, out trianglesIndex);
 
-            ////cube.transform(m);
+            Texture t = Texture.LoadImage("seafloor.jpg");
 
-            Vertex[] vertexs = cube.getVertexs();
-            List<int[]> lines = cube.getLines();
-            List<int[]> trianglesIndex = cube.getTriagngles();
-
-            //Vertex[] vertexs = new Vertex[8];
-            //vertexs[0] = new Vertex();
-            //vertexs[0].pos = new Vector4(0, 25, 10, 1);
-            //vertexs[0].color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
-
-            //vertexs[1] = new Vertex();
-            //vertexs[1].pos = new Vector4(25, 25, 35, 1);
-            //vertexs[1].color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
-
-            //vertexs[2] = new Vertex();
-            //vertexs[2].pos = new Vector4(0, 25, 60, 1);
-            //vertexs[2].color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
-
-            //vertexs[3] = new Vertex();
-            //vertexs[3].pos = new Vector4(-25, 25, 35, 1);
-            //vertexs[3].color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
-
-            //vertexs[4] = new Vertex();
-            //vertexs[4].pos = new Vector4(0, -25, 10, 1);
-            //vertexs[4].color = new Color4(1.0f, 0.0f, 1.0f, 0.0f);
-
-            //vertexs[5] = new Vertex();
-            //vertexs[5].pos = new Vector4(25, -25, 35, 1);
-            //vertexs[5].color = new Color4(1.0f, 0.0f, 1.0f, 0.0f);
-
-            //vertexs[6] = new Vertex();
-            //vertexs[6].pos = new Vector4(0, -25, 60, 1);
-            //vertexs[6].color = new Color4(1.0f, 0.0f, 1.0f, 0.0f);
-
-            //vertexs[7] = new Vertex();
-            //vertexs[7].pos = new Vector4(-25, -25, 35, 1);
-            //vertexs[7].color = new Color4(1.0f, 0.0f, 1.0f, 0.0f);
-
-            //Vertex v1 = vertexs[0];
-            //Vertex v2 = vertexs[1];
-            //Vertex v3 = vertexs[2];
-            //Vertex v4 = vertexs[3];
-            //Vertex v5 = vertexs[4];
-            //Vertex v6 = vertexs[5];
-            //Vertex v7 = vertexs[6];
-            //Vertex v8 = vertexs[7];
-
-            //List<Vertex[]> lines = new List<Vertex[]>();
-            //lines.Add(new Vertex[2] { v1, v2 });
-            //lines.Add(new Vertex[2] { v2, v3 });
-            //lines.Add(new Vertex[2] { v3, v4 });
-            //lines.Add(new Vertex[2] { v4, v1 });
-
-            //lines.Add(new Vertex[2] { v5, v6 });
-            //lines.Add(new Vertex[2] { v6, v7 });
-            //lines.Add(new Vertex[2] { v7, v8 });
-            //lines.Add(new Vertex[2] { v8, v5 });
-
-            //lines.Add(new Vertex[2] { v1, v5 });
-            //lines.Add(new Vertex[2] { v2, v6 });
-            //lines.Add(new Vertex[2] { v3, v7 });
-            //lines.Add(new Vertex[2] { v4, v8 });
-
-            //Vertex[] vertexs = new Vertex[3];
-            //List<int[]> trianglesIndex = new List<int[]>();
-            //int[] index = new int[3];
-            //index[0] = 0;
-            //index[1] = 1;
-            //index[2] = 2;
-            //trianglesIndex.Add(index);
-
-            //vertexs[0] = new Vertex();
-            //vertexs[0].pos = new Vector4(-28, -18, -20, 1);
-            //vertexs[0].color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
-
-            //vertexs[1] = new Vertex();
-            //vertexs[1].pos = new Vector4(28, -18, -20, 1);
-            //vertexs[1].color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
-
-            //vertexs[2] = new Vertex();
-            //vertexs[2].pos = new Vector4(0, 18, -20, 1);
-            //vertexs[2].color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
+            //Vertex[] vertexs = cube.getVertexs();
+            //List<int[]> lines = cube.getLines();
+            //List<int[]> trianglesIndex = cube.getTriagngles();
 
             for (int i = 0; i < vertexs.Length; i++)
             {
-                //vertexs[i].pos = mul(vertexs[i].pos, m);
+                vertexs[i].pos = mul(vertexs[i].pos, m);
                 vertexs[i].pos = Vector4.Transform(vertexs[i].pos, c.getClipMatrix());
                 vertexs[i].pos = new Vector4(vertexs[i].pos.X / vertexs[i].pos.W, vertexs[i].pos.Y / vertexs[i].pos.W, vertexs[i].pos.Z / vertexs[i].pos.W, 1.0f);
             }
 
-            //Culler.CullPlane plane = new Culler.CullPlane(
-            //    new Plane(new Vector4(-1, 1, 1, 1), new Vector4(0, 0, 1, 0)),
-            //    new Plane(new Vector4(-1, 1, 0, 1), new Vector4(1, 0, 0, 0)),
-            //    new Plane(new Vector4(1, 1, 0, 1), new Vector4(-1, 0, 0, 0)),
-            //    new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, -1, 0, 0)),
-            //    new Plane(new Vector4(-1, -1, 0, 1), new Vector4(0, 1, 0, 0)),
-            //    new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, 0, -1, 0))
-            //    );
             Culler.CullPlane plane = new Culler.CullPlane();
             cull.CullTriangles(ref vertexs, ref trianglesIndex, plane);
 
@@ -191,7 +77,7 @@ namespace softRender
                 foreach (int[] triangle in trianglesIndex)
                 {
                     //r.drawLine(vertexs, line, b);
-                    r.drawTriange(vertexs, triangle, b, zBuffer);
+                    r.drawTriange(vertexs, triangle, b, zBuffer, t);
                     i++;
                 }
                 s.Present(b);

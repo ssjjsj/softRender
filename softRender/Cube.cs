@@ -23,34 +23,42 @@ namespace softRender
             Vertex v1 = new Vertex();
             v1.pos = new Vector4(minPos.X, minPos.Y, minPos.Z, 1.0f);
             v1.color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
+            v1.uv = new Vector2(0.0f, 0.0f);
 
             Vertex v2 = new Vertex();
             v2.pos = new Vector4(maxPos.X, minPos.Y, minPos.Z, 1.0f);
             v2.color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
+            v2.uv = new Vector2(1.0f, 0.0f);
 
             Vertex v3 = new Vertex();
             v3.pos = new Vector4(maxPos.X, maxPos.Y, minPos.Z, 1.0f);
             v3.color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
+            v3.uv = new Vector2(1.0f, 1.0f);
 
             Vertex v4 = new Vertex();
             v4.pos = new Vector4(minPos.X, maxPos.Y, minPos.Z, 1.0f);
             v4.color = new Color4(1.0f, 1.0f, 0.0f, 0.0f);
+            v4.uv = new Vector2(0.0f, 1.0f);
 
             Vertex v5 = new Vertex();
             v5.pos = new Vector4(minPos.X, minPos.Y, maxPos.Z, 1.0f);
             v5.color = new Color4(1.0f, 0.0f, 0.0f, 1.0f);
+            v5.uv = new Vector2(0.0f, 0.0f);
 
             Vertex v6 = new Vertex();
             v6.pos = new Vector4(maxPos.X, minPos.Y, maxPos.Z, 1.0f);
             v6.color = new Color4(1.0f, 0.0f, 0.0f, 1.0f);
+            v6.uv = new Vector2(1.0f, 0.0f);
 
             Vertex v7 = new Vertex();
             v7.pos = new Vector4(maxPos.X, maxPos.Y, maxPos.Z, 1.0f);
             v7.color = new Color4(1.0f, 0.0f, 0.0f, 1.0f);
+            v7.uv = new Vector2(1.0f, 1.0f);
 
             Vertex v8 = new Vertex();
             v8.pos = new Vector4(minPos.X, maxPos.Y, maxPos.Z, 1.0f);
             v8.color = new Color4(1.0f, 0.0f, 0.0f, 1.0f);
+            v8.uv = new Vector2(0.0f, 1.0f);
 
             vertexs[0] = v1;
             vertexs[1] = v2;
