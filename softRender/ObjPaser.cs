@@ -13,15 +13,38 @@ namespace softRender
         List<SlimDX.Vector2> uvList = new List<SlimDX.Vector2>();
         List<SlimDX.Vector4> normalList = new List<SlimDX.Vector4>();
 
-        private void PaserObjSingle(IEnumerable<string> lines, out Vertex[] vertexs, out List<int[]> triangleIndexs)
+        private List<Pass.PassData> PaserObj(string objName)
         {
-            List<Vertex> vertexList = new List<Vertex>();
-            triangleIndexs = new List<int[]>();
-            foreach (string line in lines)
+            string matName;
+            List<Pass.PassData> datalist = new List<Pass.PassData>();
+            Pass.PassData data = null;
+            List<Vertex> vertexList = null;
+            List<int[]> triangleIndexs = null;
+            Material m = null;
+            foreach (string line in System.IO.File.ReadAllLines(name))
             {
                 if (line.StartsWith("#"))
                 {
 
+                }
+                else if (line.StartsWith("mtllib"))
+                {
+                    matName = line.Substring(7);
+
+                }
+                else if (line.StartsWith("usemtl"))
+                {
+                    if (data != null)
+                    {
+                        data.vertexs = vertexList.ToArray();
+                        data.triangleIndexs = triangleIndexs;
+                        data.m = m;
+                        datalist.Add(data);
+                    }
+                    data = new Pass.PassData();
+                    vertexList = new List<Vertex>();
+                    triangleIndexs = new List<int[]>();
+                    m = new Material();
                 }
                 else if (line.StartsWith("v"))
                 {
@@ -93,21 +116,20 @@ namespace softRender
                             v.uv = uvList[uvIndex];
                         }
 
-                        vertexList.Add(v);
-                        triangleIndexs.Add(indexs);
+                        if (data != null)
+                        {
+                            data.vertexs = vertexList.ToArray();
+                            data.triangleIndexs = triangleIndexs;
+                            data.m = m;
+                            datalist.Add(data);
+                        }
+
+                        return datalist;
                     }
                 }
             }
 
             vertexs = vertexList.ToArray();
-        }
-
-        public void  PaserObj(string name, out Vertex[] vertexs, out List<int[]> triangleIndexs)
-        {
-            System.IO.File.ReadLines(name)
-            {
-
-            }
         }
     }
 }
