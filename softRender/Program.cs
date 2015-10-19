@@ -26,9 +26,6 @@ namespace softRender
             int near = -10;
             int far = -1000;
             Surface s = new ImageSurface(300, 300);
-            Buffer<Color4> b = new Buffer<Color4>(300, 300, new Color4(1.0f, 1.0f, 1.0f, 1.0f));
-            Buffer<float> zBuffer = new Buffer<float>(300, 300, 1.0f);
-            Rasterization r = new Rasterization();
 
 
             Camera c = new Camera(10, 1000, (float)Math.PI/2,300, 300);

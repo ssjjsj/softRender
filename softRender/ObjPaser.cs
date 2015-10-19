@@ -21,6 +21,7 @@ namespace softRender
             List<Vertex> vertexList = null;
             List<int[]> triangleIndexs = null;
             Material m = null;
+            Dictionary<string, Material> matDic;
             foreach (string line in System.IO.File.ReadAllLines(name))
             {
                 if (line.StartsWith("#"))
@@ -30,7 +31,7 @@ namespace softRender
                 else if (line.StartsWith("mtllib"))
                 {
                     matName = line.Substring(7);
-
+                    matDic[matName] = parseMat(matName);
                 }
                 else if (line.StartsWith("usemtl"))
                 {
@@ -44,7 +45,9 @@ namespace softRender
                     data = new Pass.PassData();
                     vertexList = new List<Vertex>();
                     triangleIndexs = new List<int[]>();
-                    m = new Material();
+                    string[] tempAry = temp.Split(new char[1] { ' ' });
+                    string matName = tempAry[1];
+                    m = matDic[matName];
                 }
                 else if (line.StartsWith("v"))
                 {
@@ -130,6 +133,28 @@ namespace softRender
             }
 
             vertexs = vertexList.ToArray();
+        }
+
+        Dictionary<string, Material> parseMat(string name)
+        {
+            Dictionary<string, Material> matDic = new Dictionary<string, Material>();
+            Material m = null;
+            foreach (string line in System.IO.File.ReadLines())
+            {
+                if (line.StartsWith("newmtl"))
+                {
+                    string[] tempAry = line.Split(new char[1] { ' ' });
+                    string name = tempAry[1];
+                    m = new Material();
+                    matDic[name] = m;
+                }
+                else if (line.StartsWith("bump"))
+                {
+                    string[] tempAry = line.Split(new char[1] { ' ' });
+                    string name = tempAry[1];
+                    m.t = Texture.LoadImage(name);
+                }
+            }
         }
     }
 }

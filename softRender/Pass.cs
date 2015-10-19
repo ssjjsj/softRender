@@ -15,6 +15,9 @@ namespace softRender
             public Material m;
         }
 
-        private PassData data;
+        void Render(PassData data)
+        {
+
+        }
     }
 }
