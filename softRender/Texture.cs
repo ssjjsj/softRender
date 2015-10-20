@@ -14,11 +14,16 @@ namespace softRender
             return new SlimDX.Color4();
         }
 
-            public static Texture LoadImage(string name)
-            {
-                BitmapTexture t = new BitmapTexture(name);
-                return t;
-            }
+        public virtual void Release()
+        {
+
+        }
+
+        public static Texture LoadImage(string name)
+        {
+            BitmapTexture t = new BitmapTexture(name);
+            return t;
+        }
     }
 
 
@@ -31,8 +36,15 @@ namespace softRender
             image = new Bitmap(name, true);
         }
 
+        public override void Release()
+        {
+            image.Dispose();
+        }
+
         public override SlimDX.Color4 getPixel(float u, float v)
         {
+            if (u > 1.0 || u < 0.0 || v > 1.0 || u < 0.0)
+                return new SlimDX.Color4(1.0f, 0.0f, 0.0f, 1.0f);
             int x = (int)(image.Width * u)%image.Width;
             int y = (int)(image.Height * v)%image.Height;
 

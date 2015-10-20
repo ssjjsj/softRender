@@ -52,6 +52,11 @@ namespace softRender
             v.uv.X = range(v.uv.X, 0, 1);
             v.uv.Y = range(v.uv.Y, 0, 1);
 
+            if (v.uv.X > 1.0f || v.uv.X < 0.0f || v.uv.Y > 1.0f || v.uv.Y < 0.0f)
+            {
+                string wtf = "";
+            }
+
             return v;
         }
 

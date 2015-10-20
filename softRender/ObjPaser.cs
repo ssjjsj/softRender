@@ -13,54 +13,17 @@ namespace softRender
         List<SlimDX.Vector2> uvList = new List<SlimDX.Vector2>();
         List<SlimDX.Vector4> normalList = new List<SlimDX.Vector4>();
 
-        private List<Pass.PassData> PaserObj(string objName)
+        public List<Pass.PassData> PaserObj(string objName)
         {
-            string matName;
             List<Pass.PassData> datalist = new List<Pass.PassData>();
-            Pass.PassData data = null;
-            List<Vertex> vertexList = null;
-            List<int[]> triangleIndexs = null;
-            Material m = null;
-            Dictionary<string, Material> matDic;
-            foreach (string line in System.IO.File.ReadAllLines(name))
+            Dictionary<string, Material> matDic = new Dictionary<string,Material>();
+
+            foreach (string line in System.IO.File.ReadAllLines(objName))
             {
-                if (line.StartsWith("#"))
+                if (line.StartsWith("mtllib"))
                 {
-
-                }
-                else if (line.StartsWith("mtllib"))
-                {
-                    matName = line.Substring(7);
-                    matDic[matName] = parseMat(matName);
-                }
-                else if (line.StartsWith("usemtl"))
-                {
-                    if (data != null)
-                    {
-                        data.vertexs = vertexList.ToArray();
-                        data.triangleIndexs = triangleIndexs;
-                        data.m = m;
-                        datalist.Add(data);
-                    }
-                    data = new Pass.PassData();
-                    vertexList = new List<Vertex>();
-                    triangleIndexs = new List<int[]>();
-                    string[] tempAry = temp.Split(new char[1] { ' ' });
-                    string matName = tempAry[1];
-                    m = matDic[matName];
-                }
-                else if (line.StartsWith("v"))
-                {
-                    string temp;
-                    temp = line.Substring(3, line.Length - 3);
-                    string[] tempAry = temp.Split(new char[1] { ' ' });
-                    SlimDX.Vector4 pos = new SlimDX.Vector4();
-                    pos.X = System.Convert.ToSingle(tempAry[0]);
-                    pos.Y = System.Convert.ToSingle(tempAry[1]);
-                    pos.Z = System.Convert.ToSingle(tempAry[2]);
-                    pos.W = 1.0f;
-
-                    posList.Add(pos);
+                    string matLibName = line.Substring(7);
+                    matDic = parseMat("media/" + matLibName);
                 }
                 else if (line.StartsWith("vt"))
                 {
@@ -85,6 +48,52 @@ namespace softRender
 
                     normalList.Add(normal);
                 }
+                else if (line.StartsWith("v"))
+                {
+                    string temp;
+                    temp = line.Substring(3, line.Length - 3);
+                    string[] tempAry = temp.Split(new char[1] { ' ' });
+                    SlimDX.Vector4 pos = new SlimDX.Vector4();
+                    pos.X = System.Convert.ToSingle(tempAry[0]);
+                    pos.Y = System.Convert.ToSingle(tempAry[1]);
+                    pos.Z = System.Convert.ToSingle(tempAry[2]);
+                    pos.W = 1.0f;
+
+                    posList.Add(pos);
+                }
+            }
+
+
+            List<Vertex> vertexList = new List<Vertex>();
+            List<int[]> triangleIndexList = new List<int[]>();
+            Material m = null;
+            Pass.PassData data = null;
+
+            Dictionary<string, int> cache = new Dictionary<string, int>();
+
+            int dataCount = 0;
+            foreach (string line in System.IO.File.ReadAllLines(objName))
+            {
+                if (line.StartsWith("usemtl"))
+                {
+                    if (data != null)
+                    {
+                        data.triangleIndexs = triangleIndexList;
+                        data.vertexs = vertexList.ToArray();
+                        data.materail = m;
+                        datalist.Add(data);
+                        dataCount++;
+                        System.Console.WriteLine(dataCount);
+                    }
+                    data = new Pass.PassData();
+                    string[] tempAry = line.Split(new char[1] { ' ' });
+                    string matName = tempAry[1];
+                    m = matDic[matName];
+                    vertexList = new List<Vertex>();
+                    triangleIndexList = new List<int[]>();
+
+                    cache.Clear();
+                }
                 else if (line.StartsWith("f"))
                 {
                     string temp;
@@ -92,69 +101,113 @@ namespace softRender
                     string[] tempAry = temp.Split(new char[1] { ' ' });
 
                     int[] indexs = new int[3];
+
                     for (int i=0; i<tempAry.Length; i++)
                     {
                         string s = tempAry[i];
-                        Vertex v = new Vertex();
+                        if (string.IsNullOrWhiteSpace(s) || string.IsNullOrEmpty(s))
+                            continue;
+     
                         string[] IndexAry = s.Split(new char[1] { '/' });
-                        indexs[i] = Convert.ToInt32(IndexAry[0]) - 1;
                         if (IndexAry.Length == 1)
                         {
                             int posIndex = Convert.ToInt32(IndexAry[0]) - 1;
-                            v.pos = posList[posIndex];
+                            string cacheString = "pos" + posIndex.ToString();
+                            if (cache.ContainsKey(cacheString))
+                            {
+                                int index = cache[cacheString];
+                                indexs[i] = index;
+                            }
+                            else
+                            {
+                                Vertex newVertex = new Vertex();
+                                newVertex.pos = posList[posIndex];
+                                vertexList.Add(newVertex);
+                                indexs[i] = vertexList.Count - 1;
+                                cache[cacheString] = vertexList.Count - 1;
+                            }
+                            //triangleIndexList.Add(indexs);
                         }
                         else if (IndexAry.Length == 2)
                         {
                             int posIndex = Convert.ToInt32(IndexAry[0]) - 1;
                             int uvIndex = Convert.ToInt32(IndexAry[1]) - 1;
-                            v.pos = posList[posIndex];
-                            v.uv = uvList[uvIndex];
+                            string cacheString = "pos" + posIndex.ToString() + "uv" + uvIndex.ToString();
+                            if (cache.ContainsKey(cacheString))
+                            {
+                                int index = cache[cacheString];
+                                indexs[i] = index;
+                            }
+                            else
+                            {
+                                Vertex newVertex = new Vertex();
+                                newVertex.pos = posList[posIndex];
+                                newVertex.uv = uvList[uvIndex];
+                                vertexList.Add(newVertex);
+                                indexs[i] = vertexList.Count - 1;
+                                cache[cacheString] = vertexList.Count - 1;
+                            }
+                            //triangleIndexList.Add(indexs);
                         }
                         else if (IndexAry.Length == 3)
                         {
                             int posIndex = Convert.ToInt32(IndexAry[0]) - 1;
                             int uvIndex = Convert.ToInt32(IndexAry[1]) - 1;
                             int normalIndex = Convert.ToInt32(IndexAry[2]) - 1;
-                            v.pos = posList[posIndex];
-                            v.uv = uvList[uvIndex];
+                            string cacheString = "pos" + posIndex.ToString() + "uv" + uvIndex.ToString() + "normal"+normalIndex.ToString();
+                            if (cache.ContainsKey(cacheString))
+                            {
+                                int index = cache[cacheString];
+                                indexs[i] = index;
+                            }
+                            else
+                            {
+                                Vertex newVertex = new Vertex();
+                                newVertex.pos = posList[posIndex];
+                                newVertex.uv = uvList[uvIndex];
+                                vertexList.Add(newVertex);
+                                indexs[i] = vertexList.Count - 1;
+                                cache[cacheString] = vertexList.Count - 1;
+                            }
                         }
-
-                        if (data != null)
-                        {
-                            data.vertexs = vertexList.ToArray();
-                            data.triangleIndexs = triangleIndexs;
-                            data.m = m;
-                            datalist.Add(data);
-                        }
-
-                        return datalist;
                     }
+                    triangleIndexList.Add(indexs);
                 }
             }
 
-            vertexs = vertexList.ToArray();
+            if (data != null)
+            {
+                data.triangleIndexs = triangleIndexList;
+                data.vertexs = vertexList.ToArray();
+                data.materail = m;
+                datalist.Add(data);
+            }
+
+            return datalist;
         }
 
         Dictionary<string, Material> parseMat(string name)
         {
             Dictionary<string, Material> matDic = new Dictionary<string, Material>();
             Material m = null;
-            foreach (string line in System.IO.File.ReadLines())
+            foreach (string line in System.IO.File.ReadLines(name))
             {
                 if (line.StartsWith("newmtl"))
                 {
                     string[] tempAry = line.Split(new char[1] { ' ' });
-                    string name = tempAry[1];
+                    string matName = tempAry[1];
                     m = new Material();
-                    matDic[name] = m;
+                    matDic[matName] = m;
                 }
                 else if (line.StartsWith("bump"))
                 {
                     string[] tempAry = line.Split(new char[1] { ' ' });
-                    string name = tempAry[1];
-                    m.t = Texture.LoadImage(name);
+                    string texName = tempAry[1];
+                    m.textureName = texName;
                 }
             }
+
+            return matDic;
         }
     }
 }

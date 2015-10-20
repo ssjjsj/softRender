@@ -78,6 +78,8 @@ namespace softRender
                             {
                                 float u = v1.uv.X * index0 + v2.uv.X * index1 + v3.uv.X * index2;
                                 float v = v1.uv.Y * index0 + v2.uv.Y * index1 + v3.uv.Y * index2;
+                                Math.Min(Math.Max(u, 0.0f), 1.0f);
+                                Math.Min(Math.Max(v, 0.0f), 1.0f);
                                 outPutBuffer.writeOneData(posX, posY, t.getPixel(u, v));
                             }
                             else

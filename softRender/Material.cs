@@ -8,6 +8,6 @@ namespace softRender
 {
     class Material
     {
-        public Texture t;
+        public string textureName;
     }
 }
