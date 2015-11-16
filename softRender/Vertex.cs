@@ -12,5 +12,6 @@ namespace softRender
         public Vector4 pos;
         public Color4 color;
         public Vector2 uv;
+        public Vector4 normal;
     }
 }
