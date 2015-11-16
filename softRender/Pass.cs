@@ -34,6 +34,7 @@ namespace softRender
                 vertexs[i].pos = new Vector4(vertexs[i].pos.X / vertexs[i].pos.W, vertexs[i].pos.Y / vertexs[i].pos.W, vertexs[i].pos.Z / vertexs[i].pos.W, 1.0f);
             }
 
+            System.Console.WriteLine("start cull" + System.DateTime.Now);
             Culler.CullPlane plane = new Culler.CullPlane();
             SRDevice.Device.Cull.CullTriangles(ref vertexs, ref triangleIndexs, plane);
 
@@ -42,6 +43,7 @@ namespace softRender
                 vertexs[i].pos = Vector4.Transform(vertexs[i].pos, c.getClipToScreenMatrix());
             }
 
+            System.Console.WriteLine("start drawTriangle" + System.DateTime.Now);
             if (!string.IsNullOrEmpty(data.materail.textureName))
                 SRDevice.Device.CurTexture = Texture.LoadImage(data.materail.textureName);
             SRDevice.Device.drawTriangle(vertexs, triangleIndexs);

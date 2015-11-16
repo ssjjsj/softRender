@@ -43,7 +43,7 @@ namespace softRender
 
         public override SlimDX.Color4 getPixel(float u, float v)
         {
-            if (u > 1.0 || u < 0.0 || v > 1.0 || u < 0.0)
+            if (u > 1.0 || u < 0.0 || v > 1.0 || v < 0.0)
                 return new SlimDX.Color4(1.0f, 0.0f, 0.0f, 1.0f);
             int x = (int)(image.Width * u)%image.Width;
             int y = (int)(image.Height * v)%image.Height;

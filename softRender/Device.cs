@@ -24,7 +24,7 @@ namespace softRender
             this.height = height;
             b = new Buffer<Color4>(width, height, new Color4(1.0f, 1.0f, 1.0f, 1.0f));
             zBuffer = new Buffer<float>(width, height, 1.0f);
-            s = new Surface(width, height);
+            s = new ImageSurface(width, height);
         }
 
         private Camera camera;

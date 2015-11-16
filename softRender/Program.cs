@@ -21,15 +21,15 @@ namespace softRender
         }
         static void Main(string[] args)
         {
-            int width = 300;
-            int height = 300;
+            int width = 1024;
+            int height = 1024;
             int near = 10;
             int far = 1000;
 
             SRDevice.Device.Init(width, height);
 
 
-            Camera c = new Camera(near, far, (float)Math.PI/2,300, 300);
+            Camera c = new Camera(near, far, (float)Math.PI/2,width, height);
             Culler cull = new Culler();
             SRDevice.Device.Camera = c;
             SRDevice.Device.Cull = cull;
@@ -48,7 +48,7 @@ namespace softRender
             List<int[]> trianglesIndex;
 
             ObjPaser p = new ObjPaser();
-            List<Pass.PassData> dataList = p.PaserObj("media/sponza.obj");
+            List<Pass.PassData> dataList = p.PaserObj("media/modelviewer/head.obj");
 
             List<Pass> renderList = new List<Pass>();
             foreach (Pass.PassData data in dataList)
@@ -59,12 +59,15 @@ namespace softRender
 
             while (true)
             {
+                int i = 0;
+                System.Console.WriteLine("render count" + renderList.Count);
                 foreach(Pass pass in renderList)
                 {
+                    System.Console.WriteLine(i);
+                    i++;
                     pass.Render();
+                    SRDevice.Device.Present();
                 }
-
-                SRDevice.Device.Present();
             }
         }
     }

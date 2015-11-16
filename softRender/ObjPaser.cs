@@ -23,7 +23,7 @@ namespace softRender
                 if (line.StartsWith("mtllib"))
                 {
                     string matLibName = line.Substring(7);
-                    matDic = parseMat("media/" + matLibName);
+                    matDic = parseMat("media/modelviewer/" + matLibName);
                 }
                 else if (line.StartsWith("vt"))
                 {

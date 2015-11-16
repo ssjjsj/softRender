@@ -40,6 +40,7 @@ namespace softRender
         }
 
         private List<Vertex[]> cullTriangles = new List<Vertex[]>();
+        private Dictionary<string, Vertex[]> cullTrianglesCache = new Dictionary<string, Vertex[]>(); 
         private List<Vertex> newVertexs = new List<Vertex>();
         //private List<Vertex[]> culledTriangles;
 
@@ -50,11 +51,14 @@ namespace softRender
             public Plane plane;
         }
 
-        private List<CullLine> cullLineList = new List<CullLine>();
+        private Dictionary<string, CullLine> cullLineList = new Dictionary<string, CullLine>();
 
         List<Vertex> getPreCullList(Vertex p1, Vertex p2, Plane p)
         {
-            CullLine cullLine  = cullLineList.Find(x=> x.inputList.Contains(p1) && x.inputList.Contains(p2) && x.plane == p);
+            CullLine cullLine = null;
+            string cacheString = p1.GetHashCode().ToString() + p2.GetHashCode().ToString() + p.GetHashCode().ToString();
+            if (cullLineList.ContainsKey(cacheString))
+                cullLine = cullLineList[cacheString];
             
             if (cullLine != null)
                 return cullLine.outPutList;
@@ -106,7 +110,8 @@ namespace softRender
             cullLine.inputList.Add(p2);
             cullLine.plane = p;
             cullLine.outPutList = list;
-            cullLineList.Add(cullLine);
+            string cacheString = p1.GetHashCode().ToString() + p2.GetHashCode().ToString() + p.GetHashCode().ToString();
+            cullLineList[cacheString] = cullLine;
 
             return list;
         }
@@ -151,15 +156,21 @@ namespace softRender
 
         private void addNewCullTriangle(Vertex[] triangle)
         {
-            Vertex[] list = cullTriangles.Find(x => x.Contains(triangle[0]) && x.Contains(triangle[1]) && x.Contains(triangle[2]));
-            if (list == null)
+            string temp = triangle[0].ToString() + triangle[1].ToString() + triangle[2].ToString();
+            if (!cullTrianglesCache.ContainsKey(temp))
             {
                 cullTriangles.Add(triangle);
+            }
+            else
+            {
+                cullTrianglesCache[temp] = triangle;
             }
         }
 
         public void CullTriangles(ref Vertex[] vertexs, ref List<int[]> trianglesIndex, CullPlane cullPlanes)
         {
+            cullTrianglesCache.Clear();
+
             foreach (int[] indexs in trianglesIndex)
             {
                 Vertex[] t = new Vertex[3];
@@ -193,7 +204,7 @@ namespace softRender
                         newVertex1.Add(t[2]);
                 }
 
-                System.Console.Write(cullTriangles.Count.ToString() + "\n");
+                //System.Console.Write(cullTriangles.Count.ToString() + "\n");
             }
 
             List<Vertex> newVertex = new List<Vertex>();
