@@ -48,7 +48,7 @@ namespace softRender
             List<int[]> trianglesIndex;
 
             ObjPaser p = new ObjPaser();
-            List<Pass.PassData> dataList = p.PaserObj("media/cube.obj");
+            List<Pass.PassData> dataList = p.PaserObj("media/sponza.obj");
 
             List<Pass> renderList = new List<Pass>();
             foreach (Pass.PassData data in dataList)
@@ -66,9 +66,10 @@ namespace softRender
                     System.Console.WriteLine(i);
                     i++;
                     pass.Render();
-                    SRDevice.Device.Present();
                 }
             //}
+            
+            SRDevice.Device.Present();
         }
     }
 }

@@ -27,22 +27,23 @@ namespace softRender
             Vertex[] vertexs = data.vertexs;
             List<int[]> triangleIndexs = data.triangleIndexs;
             Camera c = SRDevice.Device.Camera;
-            Matrix m1 = Matrix.Translation(0.0f, 0.0f, 1.0f);
-            Matrix m2 = Matrix.RotationY((float)Math.PI);
-            Matrix m = m2*m1;
+            Matrix m1 = Matrix.Translation(0.0f, 0.0f, 100.0f);
+            //Matrix m2 = Matrix.RotationY((float)Math.PI);
+            Matrix m2 = Matrix.Scaling(new Vector3(0.1f, 0.1f, 0.1f));
+            Matrix m = m1*m2;
             for (int i = 0; i < data.vertexs.Length; i++)
             {
-                //vertexs[i].pos = Vector4.Transform(vertexs[i].pos, m);
+                vertexs[i].pos = Vector4.Transform(vertexs[i].pos, m);
                 vertexs[i].pos = Vector4.Transform(vertexs[i].pos, c.getClipMatrix());
                 vertexs[i].pos = new Vector4(vertexs[i].pos.X / vertexs[i].pos.W, vertexs[i].pos.Y / vertexs[i].pos.W, vertexs[i].pos.Z / vertexs[i].pos.W, 1.0f);
             }
 
             System.Console.WriteLine("start cull" + System.DateTime.Now);
             Culler.CullPlane plane = new Culler.CullPlane();
-            Culler.CullResult result = SRDevice.Device.Cull.CullTriangles(vertexs, triangleIndexs, plane);
+            //Culler.CullResult result = SRDevice.Device.Cull.CullTriangles(vertexs, triangleIndexs, plane);
 
-            vertexs = result.vertexs;
-            triangleIndexs = result.trianglesIndex;
+            //vertexs = result.vertexs;
+            //triangleIndexs = result.trianglesIndex;
 
             for (int i = 0; i < vertexs.Length; i++)
             {
@@ -51,7 +52,10 @@ namespace softRender
 
             System.Console.WriteLine("start drawTriangle" + System.DateTime.Now);
             if (!string.IsNullOrEmpty(data.materail.textureName))
+            {
+                System.Console.WriteLine(data.materail.textureName);
                 SRDevice.Device.CurTexture = Texture.LoadImage(data.materail.textureName);
+            }
             SRDevice.Device.drawTriangle(vertexs, triangleIndexs);
             if (SRDevice.Device.CurTexture != null)
             {
