@@ -56,7 +56,7 @@ namespace softRender
         List<Vertex> getPreCullList(Vertex p1, Vertex p2, Plane p)
         {
             CullLine cullLine = null;
-            string cacheString = p1.GetHashCode().ToString() + p2.GetHashCode().ToString() + p.GetHashCode().ToString();
+            string cacheString = p1.pos.ToString() + p2.pos.ToString() + p.normal.ToString()+p.point.ToString();
             if (cullLineList.ContainsKey(cacheString))
                 cullLine = cullLineList[cacheString];
             
@@ -110,7 +110,7 @@ namespace softRender
             cullLine.inputList.Add(p2);
             cullLine.plane = p;
             cullLine.outPutList = list;
-            string cacheString = p1.GetHashCode().ToString() + p2.GetHashCode().ToString() + p.GetHashCode().ToString();
+            string cacheString = p1.pos.ToString() + p2.pos.ToString() + p.normal.ToString()+p.point.ToString();
             cullLineList[cacheString] = cullLine;
 
             return list;
