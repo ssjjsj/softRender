@@ -23,7 +23,7 @@ namespace softRender
                 if (line.StartsWith("mtllib"))
                 {
                     string matLibName = line.Substring(7);
-                    matDic = parseMat("media/modelviewer/" + matLibName);
+                    matDic = parseMat("media/" + matLibName);
                 }
                 else if (line.StartsWith("vt"))
                 {
@@ -162,7 +162,7 @@ namespace softRender
                             int uvIndex = Convert.ToInt32(IndexAry[1]) - 1;
                             int normalIndex = Convert.ToInt32(IndexAry[2]) - 1;
                             string cacheString = "pos" + posIndex.ToString() + "uv" + uvIndex.ToString() + "normal"+normalIndex.ToString();
-                            if (cache.ContainsKey(cacheString) && false)
+                            if (cache.ContainsKey(cacheString))
                             {
                                 int index = cache[cacheString];
                                 indexs[i-1] = index;

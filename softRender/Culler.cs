@@ -167,7 +167,13 @@ namespace softRender
             }
         }
 
-        public void CullTriangles(ref Vertex[] vertexs, ref List<int[]> trianglesIndex, CullPlane cullPlanes)
+        public class CullResult
+        {
+            public Vertex[] vertexs;
+            public List<int[]> trianglesIndex;
+        }
+
+        public CullResult CullTriangles(Vertex[] vertexs, List<int[]> trianglesIndex, CullPlane cullPlanes)
         {
             cullTrianglesCache.Clear();
 
@@ -220,7 +226,7 @@ namespace softRender
             }
 
             vertexs = newVertex.ToArray();
-            trianglesIndex.Clear();
+            trianglesIndex = new List<int[]>();
 
  
 
@@ -232,6 +238,12 @@ namespace softRender
                 indexs[2] = newVertex.IndexOf(t[2]);
                 trianglesIndex.Add(indexs);
             }
+
+            CullResult result = new CullResult();
+            result.vertexs = vertexs;
+            result.trianglesIndex = trianglesIndex;
+
+            return result;
         }
     }
 }

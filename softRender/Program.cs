@@ -23,8 +23,8 @@ namespace softRender
         {
             int width = 1024;
             int height = 1024;
-            int near = 10;
-            int far = 1000;
+            int near = 1;
+            int far = 10;
 
             SRDevice.Device.Init(width, height);
 
@@ -48,7 +48,7 @@ namespace softRender
             List<int[]> trianglesIndex;
 
             ObjPaser p = new ObjPaser();
-            List<Pass.PassData> dataList = p.PaserObj("media/modelviewer/head.obj");
+            List<Pass.PassData> dataList = p.PaserObj("media/cube.obj");
 
             List<Pass> renderList = new List<Pass>();
             foreach (Pass.PassData data in dataList)
@@ -57,8 +57,8 @@ namespace softRender
                 renderList.Add(pass);
             }
 
-            while (true)
-            {
+            //while (true)
+            //{
                 int i = 0;
                 System.Console.WriteLine("render count" + renderList.Count);
                 foreach(Pass pass in renderList)
@@ -68,7 +68,7 @@ namespace softRender
                     pass.Render();
                     SRDevice.Device.Present();
                 }
-            }
+            //}
         }
     }
 }

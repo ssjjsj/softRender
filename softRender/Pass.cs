@@ -27,6 +27,9 @@ namespace softRender
             Vertex[] vertexs = data.vertexs;
             List<int[]> triangleIndexs = data.triangleIndexs;
             Camera c = SRDevice.Device.Camera;
+            Matrix m1 = Matrix.Translation(0.0f, 0.0f, 1.0f);
+            Matrix m2 = Matrix.RotationY((float)Math.PI);
+            Matrix m = m2*m1;
             for (int i = 0; i < data.vertexs.Length; i++)
             {
                 //vertexs[i].pos = Vector4.Transform(vertexs[i].pos, m);
@@ -36,7 +39,10 @@ namespace softRender
 
             System.Console.WriteLine("start cull" + System.DateTime.Now);
             Culler.CullPlane plane = new Culler.CullPlane();
-            SRDevice.Device.Cull.CullTriangles(ref vertexs, ref triangleIndexs, plane);
+            Culler.CullResult result = SRDevice.Device.Cull.CullTriangles(vertexs, triangleIndexs, plane);
+
+            vertexs = result.vertexs;
+            triangleIndexs = result.trianglesIndex;
 
             for (int i = 0; i < vertexs.Length; i++)
             {
