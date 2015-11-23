@@ -57,5 +57,15 @@ namespace softRender
 
             return m;
         }
+
+        public float getNear()
+        {
+            return near;
+        }
+
+        public float getFar()
+        {
+            return far;
+        }
     }
 }

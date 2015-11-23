@@ -20,12 +20,27 @@ namespace softRender
 
             public CullPlane()
             {
-                cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(1, 0, 0, 0)));
-                cullPlanes.Add(new Plane(new Vector4(1, 1, 0, 1), new Vector4(-1, 0, 0, 0)));
-                cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, -1, 0, 0)));
-                cullPlanes.Add(new Plane(new Vector4(-1, -1, 0, 1), new Vector4(0, 1, 0, 0)));
-                cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, 0, 1, 0)));
-                cullPlanes.Add(new Plane(new Vector4(-1, 1, 1, 1), new Vector4(0, 0, -1, 0)));
+                //cullPlanes.Add(new Plane(new Vector4(-1, 1, 1, 1), new Vector4(0, 0, -1, 0)));
+                //cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, 0, 1, 0)));
+                //cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(1, 0, 0, 0)));
+                //cullPlanes.Add(new Plane(new Vector4(1, 1, 0, 1), new Vector4(-1, 0, 0, 0)));
+                //cullPlanes.Add(new Plane(new Vector4(-1, 1, 0, 1), new Vector4(0, -1, 0, 0)));
+                //cullPlanes.Add(new Plane(new Vector4(-1, -1, 0, 1), new Vector4(0, 1, 0, 0)));
+
+                float near = SRDevice.Device.Camera.getNear();
+                float far = SRDevice.Device.Camera.getFar();
+
+
+                cullPlanes.Add(new Plane(new Vector4(0, 0, near, 1), new Vector4(0, 0, 1, 0)));
+                cullPlanes.Add(new Plane(new Vector4(0, 0, far, 1), new Vector4(0, 0, -1, 0)));
+                
+                
+                cullPlanes.Add(new Plane(new Vector4(0, 0.5f, near, 1), new Vector4(0, -1, 1, 0)));
+                cullPlanes.Add(new Plane(new Vector4(0, -0.5f, near, 1), new Vector4(0, 1, 1, 0)));
+                
+                cullPlanes.Add(new Plane(new Vector4(-0.5f, 0, near, 1), new Vector4(1, 0, 1, 0)));
+                cullPlanes.Add(new Plane(new Vector4(0.5f, 0, near, 1), new Vector4(-1, 0, 1, 0)));
+
             }
 
             public CullPlane(Plane left, Plane right, Plane top, Plane buttom, Plane front, Plane back)

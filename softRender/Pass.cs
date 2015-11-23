@@ -27,20 +27,29 @@ namespace softRender
             Vertex[] vertexs = data.vertexs;
             List<int[]> triangleIndexs = data.triangleIndexs;
             Camera c = SRDevice.Device.Camera;
-            Matrix m1 = Matrix.Translation(0.0f, 0.0f, 100.0f);
-            //Matrix m2 = Matrix.RotationY((float)Math.PI);
-            Matrix m2 = Matrix.Scaling(new Vector3(0.1f, 0.1f, 0.1f));
-            Matrix m = m1*m2;
+            Matrix m = Matrix.Translation(0.0f, 0.0f, 2.0f);
+            //Matrix m = Matrix.RotationY((float)Math.PI/4);
+            //Matrix m2 = Matrix.Scaling(new Vector3(0.1f, 0.1f, 0.1f));
+            //Matrix m = m1*m2;
+
             for (int i = 0; i < data.vertexs.Length; i++)
             {
-                //vertexs[i].pos = Vector4.Transform(vertexs[i].pos, m);
-                vertexs[i].pos = Vector4.Transform(vertexs[i].pos, c.getClipMatrix());
-                vertexs[i].pos = new Vector4(vertexs[i].pos.X / vertexs[i].pos.W, vertexs[i].pos.Y / vertexs[i].pos.W, vertexs[i].pos.Z / vertexs[i].pos.W, 1.0f);
+                vertexs[i].pos = Vector4.Transform(vertexs[i].pos, m);
             }
 
             System.Console.WriteLine("start cull" + System.DateTime.Now);
             Culler.CullPlane plane = new Culler.CullPlane();
             Culler.CullResult result = SRDevice.Device.Cull.CullTriangles(vertexs, triangleIndexs, plane);
+
+
+            for (int i = 0; i < data.vertexs.Length; i++)
+            {
+                vertexs[i].pos = Vector4.Transform(vertexs[i].pos, m);
+                vertexs[i].pos = Vector4.Transform(vertexs[i].pos, c.getClipMatrix());
+                vertexs[i].pos = new Vector4(vertexs[i].pos.X / vertexs[i].pos.W, vertexs[i].pos.Y / vertexs[i].pos.W, vertexs[i].pos.Z / vertexs[i].pos.W, 1.0f);
+            }
+
+
 
             vertexs = result.vertexs;
             triangleIndexs = result.trianglesIndex;
