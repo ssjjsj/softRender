@@ -48,7 +48,7 @@ namespace softRender
             List<int[]> trianglesIndex;
 
             ObjPaser p = new ObjPaser();
-            //List<Pass.PassData> dataList = p.PaserObj("media/cube.obj");
+           // List<Pass.PassData> dataList = p.PaserObj("media/sponza.obj");
 
             List<Pass.PassData> dataList = new List<Pass.PassData>();
             Pass.PassData passData = new Pass.PassData();
