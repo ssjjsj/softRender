@@ -72,8 +72,14 @@ namespace softRender
         {
             CullLine cullLine = null;
             string cacheString = p1.pos.ToString() + p2.pos.ToString() + p.normal.ToString()+p.point.ToString();
-            if (cullLineList.ContainsKey(cacheString))
-                cullLine = cullLineList[cacheString];
+            foreach (CullLine c in cullLineList.Values)
+            {
+                if (c.inputList.Contains(p1) && c.inputList.Contains(p2) && c.plane == p)
+                    cullLine = c;
+            }
+
+            //if (cullLineList.ContainsKey(cacheString))
+            //    cullLine = cullLineList[cacheString];
             
             if (cullLine != null)
                 return cullLine.outPutList;
@@ -133,8 +139,6 @@ namespace softRender
 
         private void cullTriangle(Vertex[] triangle, Plane p)
         {
-            cullTriangles.Remove(triangle);
-
             List<Vertex> vertexs = new List<Vertex>();
             vertexs.AddRange(cullLine(triangle[0], triangle[1], p));
             foreach (Vertex v in cullLine(triangle[1], triangle[2], p))
@@ -175,9 +179,6 @@ namespace softRender
             if (!cullTrianglesCache.ContainsKey(temp))
             {
                 cullTriangles.Add(triangle);
-            }
-            else
-            {
                 cullTrianglesCache[temp] = triangle;
             }
         }
@@ -190,8 +191,6 @@ namespace softRender
 
         public CullResult CullTriangles(Vertex[] vertexs, List<int[]> trianglesIndex, CullPlane cullPlanes)
         {
-            cullTrianglesCache.Clear();
-
             foreach (int[] indexs in trianglesIndex)
             {
                 Vertex[] t = new Vertex[3];
@@ -208,6 +207,9 @@ namespace softRender
             {
                 Vertex[][] triAry = cullTriangles.ToArray();
                 int length = triAry.Length;
+
+                cullTriangles.Clear();
+                cullTrianglesCache.Clear();
                 
                 for (int i = 0; i < triAry.Length; i++)
                 {
@@ -225,7 +227,7 @@ namespace softRender
                         newVertex1.Add(t[2]);
                 }
 
-                //System.Console.Write(cullTriangles.Count.ToString() + "\n");
+                int vertexCount = newVertex1.Count;
             }
 
             List<Vertex> newVertex = new List<Vertex>();

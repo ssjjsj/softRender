@@ -41,22 +41,29 @@ namespace softRender
             image.Dispose();
         }
 
-        public override SlimDX.Color4 getPixel(float u, float v)
+        public override SlimDX.Color4 getPixel(float fu, float fv)
         {
-            u = u % 1;
-            v = v % 1;
+            float u = fu;
+            float v = fv;
 
-            if (u > 1.0f)
-                u = u - 1.0f;
+            if (u > 2)
+                u = 2;
+            if (v > 2)
+                v = 2;
+            if (u < -1)
+                u = -1;
+            if (v < -1)
+                v = -1;
 
-            if (v > 1.0f)
-                v = v - 1.0f;
+            if (u < 0)
+                u = 1 + u;
+            if (v < 0)
+                v = 1 + v;
 
-            if (u < 0.0f)
-                u = 1.0f + u;
-
-            if (v < 0.0f)
-                v = 1.0f + v;
+            if (u > 1)
+                u = 2 - u;
+            if (v > 1)
+                v = 2 - v;
 
 
             int x = (int)(image.Width * u)%image.Width;

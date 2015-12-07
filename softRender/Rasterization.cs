@@ -70,21 +70,25 @@ namespace softRender
                         c.Blue = v1.color.Blue * index0 + v2.color.Blue * index1 + v3.color.Blue * index2;
                         float z = v1.pos.Z * index0 + v2.pos.Z * index1 + v3.pos.Z * index2;
 
-                        float curZ = zBuffer.readOneData(posX, posY);
-                        if (z < curZ)
+                        bool offScreen = posX < 0 || posX >= SRDevice.Device.GetWidth() || posY < 0 || posY >= SRDevice.Device.GetHeight();
+                        if (!offScreen)
                         {
-                            zBuffer.writeOneData(posX, posY, z);
-                            if (t != null)
+                            float curZ = zBuffer.readOneData(posX, posY);
+                            if (z < curZ)
                             {
-                                float u = v1.uv.X * index0 + v2.uv.X * index1 + v3.uv.X * index2;
-                                float v = v1.uv.Y * index0 + v2.uv.Y * index1 + v3.uv.Y * index2;
-                                Math.Min(Math.Max(u, 0.0f), 1.0f);
-                                Math.Min(Math.Max(v, 0.0f), 1.0f);
-                                outPutBuffer.writeOneData(posX, posY, t.getPixel(u, v));
-                            }
-                            else
-                            {
-                                outPutBuffer.writeOneData(posX, posY, c);
+                                zBuffer.writeOneData(posX, posY, z);
+                                if (t != null)
+                                {
+                                    float u = v1.uv.X * index0 + v2.uv.X * index1 + v3.uv.X * index2;
+                                    float v = v1.uv.Y * index0 + v2.uv.Y * index1 + v3.uv.Y * index2;
+                                    Math.Min(Math.Max(u, 0.0f), 1.0f);
+                                    Math.Min(Math.Max(v, 0.0f), 1.0f);
+                                    outPutBuffer.writeOneData(posX, posY, t.getPixel(u, v));
+                                }
+                                else
+                                {
+                                    outPutBuffer.writeOneData(posX, posY, c);
+                                }
                             }
                         }
                     }

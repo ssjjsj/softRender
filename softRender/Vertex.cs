@@ -13,5 +13,10 @@ namespace softRender
         public Color4 color;
         public Vector2 uv;
         public Vector4 normal;
+
+        public string ToString()
+        {
+            return pos.ToString() + color.ToString() + uv.ToString() + normal.ToString();
+        }
     }
 }

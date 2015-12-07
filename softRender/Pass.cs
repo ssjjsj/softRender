@@ -27,34 +27,34 @@ namespace softRender
             Vertex[] vertexs = data.vertexs;
             List<int[]> triangleIndexs = data.triangleIndexs;
             Camera c = SRDevice.Device.Camera;
-            Matrix m2 = Matrix.Translation(0.0f, 0.0f, 50.0f);
-            Matrix m1 = Matrix.RotationY((float)Math.PI/4*3);
-            //Matrix m2 = Matrix.Scaling(new Vector3(0.1f, 0.1f, 0.1f));
-            Matrix m = m1*m2;
+            Matrix m1 = Matrix.Translation(0.0f, 0.0f, 11.0f);
+            Matrix m3 = Matrix.RotationY((float)Math.PI/4*3);
+            Matrix m2 = Matrix.Scaling(new Vector3(10f, 10f, 10f));
+            Matrix m = m2*m3*m1;
 
             for (int i = 0; i < vertexs.Length; i++)
             {
                 vertexs[i].pos = Vector4.Transform(vertexs[i].pos, m);
             }
 
-            //foreach (int[] triangle in triangleIndexs.ToArray())
-            //{
+            foreach (int[] triangle in triangleIndexs.ToArray())
+            {
 
-            //    Vector4 v1 = vertexs[triangle[0]].pos - vertexs[triangle[1]].pos;
-            //    Vector4 v2 = vertexs[triangle[2]].pos - vertexs[triangle[1]].pos;
+                Vector4 v1 = vertexs[triangle[0]].pos - vertexs[triangle[1]].pos;
+                Vector4 v2 = vertexs[triangle[2]].pos - vertexs[triangle[1]].pos;
 
-            //    Vector3 n = Vector3.Cross(new Vector3(v1.X, v1.Y, v1.Z), new Vector3(v2.X, v2.Y, v2.Z));
+                Vector3 n = Vector3.Cross(new Vector3(v1.X, v1.Y, v1.Z), new Vector3(v2.X, v2.Y, v2.Z));
 
-            //    if (Vector3.Dot(n, new Vector3(0, 0, 1)) < 0)
-            //        triangleIndexs.Remove(triangle);
-            //}
+                if (Vector3.Dot(n, new Vector3(0, 0, 1)) < 0)
+                    triangleIndexs.Remove(triangle);
+            }
 
-            //System.Console.WriteLine("start cull" + System.DateTime.Now);
-            //Culler.CullPlane plane = new Culler.CullPlane();
-            //Culler.CullResult result = SRDevice.Device.Cull.CullTriangles(vertexs, triangleIndexs, plane);
+            System.Console.WriteLine("start cull" + System.DateTime.Now);
+            Culler.CullPlane plane = new Culler.CullPlane();
+            Culler.CullResult result = SRDevice.Device.Cull.CullTriangles(vertexs, triangleIndexs, plane);
 
-            //vertexs = result.vertexs;
-            //triangleIndexs = result.trianglesIndex;
+            vertexs = result.vertexs;
+            triangleIndexs = result.trianglesIndex;
 
 
             for (int i = 0; i < vertexs.Length; i++)

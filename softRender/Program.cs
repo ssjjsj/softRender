@@ -23,7 +23,7 @@ namespace softRender
         {
             int width = 1024;
             int height = 1024;
-            float near = 10f;
+            float near = 1f;
             float far = 100.0f;
 
             SRDevice.Device.Init(width, height);
@@ -48,17 +48,17 @@ namespace softRender
             List<int[]> trianglesIndex;
 
             ObjPaser p = new ObjPaser();
-           // List<Pass.PassData> dataList = p.PaserObj("media/sponza.obj");
+            List<Pass.PassData> dataList = p.PaserObj("media/cube.obj");
 
-            List<Pass.PassData> dataList = new List<Pass.PassData>();
-            Pass.PassData passData = new Pass.PassData();
+            //List<Pass.PassData> dataList = new List<Pass.PassData>();
+            //Pass.PassData passData = new Pass.PassData();
 
-            Cube cube = new Cube(new Vector4(-10, -10, -10, 1), new Vector4(10, 10, 10, 1));
-            passData.vertexs = cube.getVertexs();
-            passData.triangleIndexs = cube.getTriagngles();
-            passData.materail = new Material();
-            passData.materail.textureName = "sponza_thorn_diff.bmp";
-            dataList.Add(passData);
+            //Cube cube = new Cube(new Vector4(-10, -10, -10, 1), new Vector4(10, 10, 10, 1));
+            //passData.vertexs = cube.getVertexs();
+            //passData.triangleIndexs = cube.getTriagngles();
+            //passData.materail = new Material();
+            //passData.materail.textureName = "sponza_thorn_diff.bmp";
+            //dataList.Add(passData);
 
             List<Pass> renderList = new List<Pass>();
             foreach (Pass.PassData data in dataList)

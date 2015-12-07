@@ -88,5 +88,16 @@ namespace softRender
         {
             s.Present(b);
         }
+
+
+        public int GetWidth()
+        {
+            return width;
+        }
+
+        public int GetHeight()
+        {
+            return height;
+        }
     }
 }
