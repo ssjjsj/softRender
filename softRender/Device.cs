@@ -84,6 +84,15 @@ namespace softRender
             }
         }
 
+
+        public void drawLine(Vertex[] vertexs, List<int[]> lines)
+        {
+            foreach (int[] line in lines)
+            {
+                r.drawLine(vertexs, line, b);
+            }
+        }
+
         public void Present()
         {
             s.Present(b);

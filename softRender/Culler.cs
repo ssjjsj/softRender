@@ -33,11 +33,11 @@ namespace softRender
 
                 cullPlanes.Add(new Plane(new Vector4(0, 0, near, 1), new Vector4(0, 0, 1, 0)));
                 cullPlanes.Add(new Plane(new Vector4(0, 0, far, 1), new Vector4(0, 0, -1, 0)));
-                
-                
+
+
                 cullPlanes.Add(new Plane(new Vector4(0, 0.5f, near, 1), new Vector4(0, -1, 1, 0)));
                 cullPlanes.Add(new Plane(new Vector4(0, -0.5f, near, 1), new Vector4(0, 1, 1, 0)));
-                
+
                 cullPlanes.Add(new Plane(new Vector4(-0.5f, 0, near, 1), new Vector4(1, 0, 1, 0)));
                 cullPlanes.Add(new Plane(new Vector4(0.5f, 0, near, 1), new Vector4(-1, 0, 1, 0)));
 
@@ -89,11 +89,11 @@ namespace softRender
 
         private List<Vertex> cullLine(Vertex p1, Vertex p2, Plane p)
         {
-            List<Vertex> list = getPreCullList(p1, p2, p);
-            if (list != null)
-                return list;
+            //List<Vertex> list = getPreCullList(p1, p2, p);
+            //if (list != null)
+            //    return list;
 
-            list = new List<Vertex>();
+            List<Vertex> list = new List<Vertex>();
             float value1 = p.getDotValue(p1.pos);
             float value2 = p.getDotValue(p2.pos);
 
@@ -175,12 +175,16 @@ namespace softRender
 
         private void addNewCullTriangle(Vertex[] triangle)
         {
-            string temp = triangle[0].ToString() + triangle[1].ToString() + triangle[2].ToString();
-            if (!cullTrianglesCache.ContainsKey(temp))
-            {
+            //string temp = triangle[0].ToString() + triangle[1].ToString() + triangle[2].ToString();
+            //if (!cullTrianglesCache.ContainsKey(temp))
+            //{
+            //    cullTriangles.Add(triangle);
+            //    cullTrianglesCache[temp] = triangle;
+            //}
+
+            Vertex[] temp = cullTriangles.Find(x => x.Contains(triangle[0]) && x.Contains(triangle[1]) && x.Contains(triangle[2]));
+            if (temp == null)
                 cullTriangles.Add(triangle);
-                cullTrianglesCache[temp] = triangle;
-            }
         }
 
         public class CullResult

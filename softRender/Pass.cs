@@ -27,14 +27,15 @@ namespace softRender
             Vertex[] vertexs = data.vertexs;
             List<int[]> triangleIndexs = data.triangleIndexs;
             Camera c = SRDevice.Device.Camera;
-            Matrix m1 = Matrix.Translation(0.0f, 0.0f, 11.0f);
+            Matrix m1 = Matrix.Translation(0.0f, 0.0f, 0.0f);
             Matrix m3 = Matrix.RotationY((float)Math.PI/4*3);
             Matrix m2 = Matrix.Scaling(new Vector3(10f, 10f, 10f));
-            Matrix m = m2*m3*m1;
+            Matrix m = m3*m2*m1;
 
             for (int i = 0; i < vertexs.Length; i++)
             {
-                vertexs[i].pos = Vector4.Transform(vertexs[i].pos, m);
+                vertexs[i].color = new Color4(1.0f, 0.0f, 0.0f);
+                vertexs[i].pos = Vector4.Transform(vertexs[i].pos, m1);
             }
 
             foreach (int[] triangle in triangleIndexs.ToArray())
@@ -69,6 +70,45 @@ namespace softRender
             {
                 vertexs[i].pos = Vector4.Transform(vertexs[i].pos, c.getClipToScreenMatrix());
             }
+
+            List<int[]> lines = new List<int[]>();
+            foreach (int[] tringle in triangleIndexs)
+            {
+                int[] line1 = new int[2];
+                line1[0] = tringle[0];
+                line1[1] = tringle[1];
+
+                int[] line2 = new int[2];
+                line2[0] = tringle[1];
+                line2[1] = tringle[2];
+
+                int[] line3 = new int[2];
+                line3[0] = tringle[2];
+                line3[1] = tringle[0];
+
+                int[] temp1 = lines.Find(x => x.Contains(line1[0]) && x.Contains(line1[1]));
+                if (temp1 == null)
+                    lines.Add(line1);
+                else
+                    lines.Remove(temp1);
+
+                int[] temp2 = lines.Find(x => x.Contains(line2[0]) && x.Contains(line2[1]));
+                if (temp2 == null)
+                    lines.Add(line2);
+                else
+                    lines.Remove(temp2);
+
+                int[] temp3 = lines.Find(x => x.Contains(line3[0]) && x.Contains(line3[1]));
+                if (temp3 == null)
+                    lines.Add(line3);
+                else
+                    lines.Remove(temp3);
+            }
+
+
+            //SRDevice.Device.drawLine(vertexs, lines);
+
+
 
             System.Console.WriteLine("start drawTriangle" + System.DateTime.Now);
             if (!string.IsNullOrEmpty(data.materail.textureName))

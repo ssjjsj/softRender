@@ -46,24 +46,13 @@ namespace softRender
             float u = fu;
             float v = fv;
 
-            if (u > 2)
-                u = 2;
-            if (v > 2)
-                v = 2;
-            if (u < -1)
-                u = -1;
-            if (v < -1)
-                v = -1;
+            u = u % 1;
+            v = v % 1;
 
             if (u < 0)
-                u = 1 + u;
+                u = 1+u;
             if (v < 0)
-                v = 1 + v;
-
-            if (u > 1)
-                u = 2 - u;
-            if (v > 1)
-                v = 2 - v;
+                v = 1+v;
 
 
             int x = (int)(image.Width * u)%image.Width;
