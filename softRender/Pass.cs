@@ -22,20 +22,18 @@ namespace softRender
             public Material materail;
         }
 
-        public void Render()
+        public void Render(Matrix m)
         {
-            Vertex[] vertexs = data.vertexs;
-            List<int[]> triangleIndexs = data.triangleIndexs;
+            VertexBuffer vb = new VertexBuffer(data.vertexs);
+            IndexBuffer ib = new IndexBuffer(data.triangleIndexs);
+            Vertex[] vertexs = vb.getData();
+            List<int[]> triangleIndexs = ib.getData();
             Camera c = SRDevice.Device.Camera;
-            Matrix m1 = Matrix.Translation(0.0f, 0.0f, 0.0f);
-            Matrix m3 = Matrix.RotationY((float)Math.PI/4*3);
-            Matrix m2 = Matrix.Scaling(new Vector3(10f, 10f, 10f));
-            Matrix m = m3*m2*m1;
 
             for (int i = 0; i < vertexs.Length; i++)
             {
                 vertexs[i].color = new Color4(1.0f, 0.0f, 0.0f);
-                vertexs[i].pos = Vector4.Transform(vertexs[i].pos, m1);
+                vertexs[i].pos = Vector4.Transform(vertexs[i].pos, m);
             }
 
             foreach (int[] triangle in triangleIndexs.ToArray())

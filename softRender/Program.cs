@@ -48,36 +48,23 @@ namespace softRender
             List<int[]> trianglesIndex;
 
             ObjPaser p = new ObjPaser();
-            List<Pass.PassData> dataList = p.PaserObj("media/sponza.obj");
+            List<Pass.PassData> dataList = p.PaserObj("media/cube.obj");
 
-            //List<Pass.PassData> dataList = new List<Pass.PassData>();
-            //Pass.PassData passData = new Pass.PassData();
+            Model m1 = new Model(dataList);
+            Model m2 = new Model(dataList);
 
-            //Cube cube = new Cube(new Vector4(-10, -10, -10, 1), new Vector4(10, 10, 10, 1));
-            //passData.vertexs = cube.getVertexs();
-            //passData.triangleIndexs = cube.getTriagngles();
-            //passData.materail = new Material();
-            //passData.materail.textureName = "sponza_thorn_diff.bmp";
-            //dataList.Add(passData);
+            m1.transform.localPosition = new Vector4(0.0f, 0.0f, 50.0f, 0.0f);
+            m1.transform.localScale = new Vector4(20.0f, 2.0f, 20.0f, 0.0f);
+            m1.transform.localRotation = new Vector4(0.0f, (float)Math.PI / 4, 0.0f, 0.0f);
+            
+            m2.transform.localPosition = new Vector4(0.0f, 0.0f, 50.0f, 0.0f);
+            m2.transform.localScale = new Vector4(10.0f, 10.0f, 10.0f, 0.0f);
+            m2.transform.localRotation = new Vector4(0.0f, (float)Math.PI / 4, 0.0f, 0.0f);
 
-            List<Pass> renderList = new List<Pass>();
-            foreach (Pass.PassData data in dataList)
-            {
-                Pass pass = new Pass(data);
-                renderList.Add(pass);
-            }
+            //m1.Render();
+            m2.Render();
 
-            //while (true)
-            //{
-                int i = 0;
-                System.Console.WriteLine("render count" + renderList.Count);
-                foreach(Pass pass in renderList)
-                {
-                    System.Console.WriteLine(i);
-                    i++;
-                    pass.Render();
-                }
-            //}
+
             
             SRDevice.Device.Present();
         }

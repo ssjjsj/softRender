@@ -18,7 +18,14 @@ namespace softRender
 
         public Matrix getMatrix()
         {
-            return Matrix.Identity;
+            Matrix m0 = Matrix.Scaling(localScale.X, localScale.Y, localScale.Z);
+            Matrix m1 = Matrix.RotationX(localRotation.X);
+            Matrix m2 = Matrix.RotationY(localRotation.Y);
+            Matrix m3 = Matrix.RotationZ(localRotation.Z);
+
+            Matrix m4 = Matrix.Translation(localPosition.X, localPosition.Y, localPosition.Z);
+
+            return m0 * m1 * m2 * m3 * m4;
         }
     }
 }
