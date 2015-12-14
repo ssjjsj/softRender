@@ -24,6 +24,7 @@ namespace softRender
 
         public void Render(Matrix m)
         {
+            m = m * SRDevice.Device.Camera.getViewMatrix();
             VertexBuffer vb = new VertexBuffer(data.vertexs);
             IndexBuffer ib = new IndexBuffer(data.triangleIndexs);
             Vertex[] vertexs = vb.getData();
@@ -33,7 +34,7 @@ namespace softRender
             for (int i = 0; i < vertexs.Length; i++)
             {
                 vertexs[i].color = new Color4(1.0f, 0.0f, 0.0f);
-                vertexs[i].pos = Vector4.Transform(vertexs[i].pos, m);
+                //vertexs[i].pos = Vector4.Transform(vertexs[i].pos, m);
             }
 
             foreach (int[] triangle in triangleIndexs.ToArray())

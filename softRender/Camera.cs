@@ -15,7 +15,8 @@ namespace softRender
         private float viewField;
         private float near;
         private float far;
-        private Transform camTransform;
+        private Matrix viewMatrix;
+        public Transform transform = new Transform();
 
         public Camera(float near, float far, float fov, float width, float height)
         {
@@ -25,6 +26,17 @@ namespace softRender
             this.width = width;
             this.height = height;
             this.viewField = fov;
+        }
+
+        public void setLookAt(Vector3 camerPos, Vector3 target, Vector3 up)
+        {
+            viewMatrix = Matrix.LookAtLH(camerPos, target, up);
+        }
+
+
+        public Matrix getViewMatrix()
+        {
+            return viewMatrix;
         }
 
         public Matrix getClipMatrix()

@@ -34,15 +34,8 @@ namespace softRender
             SRDevice.Device.Camera = c;
             SRDevice.Device.Cull = cull;
 
-            //Cube cube = new Cube(new Vector4(-5f, -5f, -5f, 1f), new Vector4(5f, 5f, 5f, 1.0f));
-            //Matrix m1 = Matrix.Identity;
-            //Matrix m2 = Matrix.Identity;
-            //Matrix m3 = Matrix.Identity;
-            //Matrix m = new Matrix();
-            //Matrix.Scaling(10f, 10f, 10f, out m1);
-            //Matrix.RotationY((float)Math.PI / 4, out m2);
-            //Matrix.Translation(0.0f, 0.0f, 125.0f, out m3);
-            //m = m1* m2 * m3;
+
+            c.setLookAt(new Vector3(20, 20, 0), new Vector3(-0.1f, 0.5f, 1), new Vector3(0, 1, 0));
 
             Vertex[] vertexs;
             List<int[]> trianglesIndex;
@@ -51,21 +44,43 @@ namespace softRender
             List<Pass.PassData> dataList = p.PaserObj("media/cube.obj");
 
             Model m1 = new Model(dataList);
-            Model m2 = new Model(dataList);
 
-            m1.transform.localPosition = new Vector4(0.0f, 0.0f, 50.0f, 0.0f);
-            m1.transform.localScale = new Vector4(20.0f, 2.0f, 20.0f, 0.0f);
-            m1.transform.localRotation = new Vector4(0.0f, (float)Math.PI / 4, 0.0f, 0.0f);
-            
-            m2.transform.localPosition = new Vector4(0.0f, 0.0f, 50.0f, 0.0f);
-            m2.transform.localScale = new Vector4(10.0f, 10.0f, 10.0f, 0.0f);
-            m2.transform.localRotation = new Vector4(0.0f, (float)Math.PI / 4, 0.0f, 0.0f);
+            Vertex v1 = new Vertex();
+            v1.pos = new Vector4(-0.5f, -0.5f, 11f, 0);
+            v1.color = new Color4(1.0f, 0.5f, 0.5f, 0.5f);
+            Vertex v2 = new Vertex();
+            v2.pos = new Vector4(-0.5f, 0.5f, 11f, 0);
+            v2.color = new Color4(1.0f, 0.5f, 0.5f, 0.5f);
+            Vertex v3 = new Vertex();
+            v3.pos = new Vector4(0.5f, -0.5f, 11f, 0);
+            v3.color = new Color4(1.0f, 0.5f, 0.5f, 0.5f);
+            Vertex v4 = new Vertex();
+            v4.pos = new Vector4(0.5f, 0.5f, 11f, 0);
+            v4.color = new Color4(1.0f, 0.5f, 0.5f, 0.5f);
+
+            Pass.PassData data = new Pass.PassData();
+            data.vertexs = new Vertex[4];
+            data.vertexs[0] = v1;
+            data.vertexs[1] = v2;
+            data.vertexs[2] = v3;
+            data.vertexs[3] = v4;
+
+            data.triangleIndexs = new List<int[]>();
+            int[] triangle1 = new int[3] { 0, 3, 2 };
+            int[] triangle2 = new int[3] { 3, 0, 1 };
+            data.triangleIndexs.Add(triangle1);
+            data.triangleIndexs.Add(triangle2);
+
+            data.materail = new Material();
+
+            Model m2 = new Model(new List<Pass.PassData>() { data });
+            m2.Render(Matrix.Invert(SRDevice.Device.Camera.getViewMatrix()));
+
+            m1.transform.localPosition = new Vector4(0.0f, 0.0f, 10.0f, 0.0f);
+            m1.transform.localScale = new Vector4(10.0f, 10.0f, 10.0f, 0.0f);
+            //m1.transform.localRotation = new Vector4(0.0f, (float)Math.PI / 4, 0.0f, 0.0f);
 
             //m1.Render();
-            m2.Render();
-
-
-            
             SRDevice.Device.Present();
         }
     }

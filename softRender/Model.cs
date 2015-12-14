@@ -24,5 +24,11 @@ namespace softRender
             foreach (Pass p in renderPass)
                 p.Render(transform.getMatrix());
         }
+
+        public void Render(SlimDX.Matrix m)
+        {
+            foreach (Pass p in renderPass)
+                p.Render(m);
+        }
     }
 }
